@@ -1,0 +1,47 @@
+{% extends "home/base.html" %}
+{% block content %}
+<div class="container mt-5 admin-page">
+    <h2 class="text-center">Notificar Hora de Paciente</h2>
+    <form method="post" action="{% url 'actualizar_estado_reserva' reserva.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="numero_reserva">Número de Reserva:</label>
+            <input type="text" class="form-control" id="numero_reserva" value="{{ reserva.nro_reserva }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="nombre_completo">Nombre Completo:</label>
+            <input type="text" class="form-control" id="nombre_completo" value="{{ reserva.cliente.nombre }} {{ reserva.cliente.apellido_paterno }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="correo">Correo:</label>
+            <input type="email" class="form-control" id="correo" value="{{ reserva.cliente.correo }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" class="form-control" id="fecha" value="{{ reserva.agendar_hora|date:'Y-m-d' }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="hora">Hora:</label>
+            <input type="time" class="form-control" id="hora" value="{{ reserva.agendar_hora|time:'H:i' }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="text" class="form-control" id="telefono" value="{{ reserva.cliente.telefono }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="comentario">Comentario:</label>
+            <textarea class="form-control" id="comentario" name="comentario" rows="3">{{ reserva.comentario }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select class="form-control" id="estado" name="estado">
+                {% for key, value in reserva.ESTADO_CHOICES %}
+                    <option value="{{ key }}" {% if reserva.estado == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Actualizar Estado</button>
+    </form>
+    <a href="{% url 'especialista_lista_espera' %}" class="btn btn-secondary mt-3">Volver</a>
+</div>
+{% endblock %}

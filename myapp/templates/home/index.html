@@ -1,0 +1,196 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}El Curador - Inicio{% endblock %}
+
+{% block content %}
+<!-- Encabezado con imagen de fondo -->
+<section class="hero-section" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 500px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.5); padding: 20px; border-radius: 10px;">
+        <h1>Bienvenidos a El Curador</h1>
+        <p>Atención médica de calidad para todos.</p>
+    </div>
+</section>
+
+<!-- Servicios Destacados -->
+<section class="mt-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Nuestros Servicios</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/doctor1.jpg' %}" class="card-img-top" alt="Doctor 1" style="height: 200px; object-fit: cover;">
+                    <div class="card-body text-center" style="background: #f8f9fa;">
+                        <h5 class="card-title">Reservar Hora</h5>
+                        <p class="card-text">Seleccione una fecha y hora disponible para reservar una consulta médica.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/doctor2.jpg' %}" class="card-img-top" alt="Doctor 2" style="height: 200px; object-fit: cover;">
+                    <div class="card-body text-center" style="background: #f8f9fa;">
+                        <h5 class="card-title">Ver mis Reservas</h5>
+                        <p class="card-text">Revise y gestione sus reservas médicas programadas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/doctor3.jpg' %}" class="card-img-top" alt="Doctor 3" style="height: 200px; object-fit: cover;">
+                    <div class="card-body text-center" style="background: #f8f9fa;">
+                        <h5 class="card-title">Anular Hora</h5>
+                        <p class="card-text">Anule una reserva médica si no puede asistir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Noticias Médicas -->
+<section class="mt-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Noticias Médicas</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/noticia_psicologia.webp' %}" class="card-img-top" alt="Noticia Psicología" style="height: 200px; object-fit: cover;">
+                    <div class="card-body" style="background: #f8f9fa;">
+                        <h5 class="card-title">Nueva Terapia Cognitivo-Conductual</h5>
+                        <p class="card-text">El Curador introduce una innovadora terapia cognitivo-conductual para tratar la ansiedad y la depresión, obteniendo resultados positivos en el 85% de los casos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/noticia_medicina_general.jpg' %}" class="card-img-top" alt="Noticia Medicina General" style="height: 200px; object-fit: cover;">
+                    <div class="card-body" style="background: #f8f9fa;">
+                        <h5 class="card-title">Chequeos Preventivos Avanzados</h5>
+                        <p class="card-text">La clínica ahora ofrece chequeos preventivos avanzados que incluyen pruebas genéticas para detectar enfermedades hereditarias con mayor precisión.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/noticia_dental.jpg' %}" class="card-img-top" alt="Noticia Dental" style="height: 200px; object-fit: cover;">
+                    <div class="card-body" style="background: #f8f9fa;">
+                        <h5 class="card-title">Nueva Tecnología en Implantes Dentales</h5>
+                        <p class="card-text">Implementamos la última tecnología en implantes dentales, proporcionando una solución más rápida y menos invasiva para nuestros pacientes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                    <img src="{% static 'images/noticia_salud_mental.jpg' %}" class="card-img-top" alt="Noticia Salud Mental" style="height: 200px; object-fit: cover;">
+                    <div class="card-body" style="background: #f8f9fa;">
+                        <h5 class="card-title">Programa de Bienestar Emocional</h5>
+                        <p class="card-text">Lanzamos un nuevo programa de bienestar emocional que incluye terapias grupales y talleres de mindfulness para mejorar la salud mental de nuestros pacientes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sellos y certificaciones -->
+<section class="mt-5 mb-5">
+    <div class="container text-center">
+        <h3 class="mb-4">Sellos y certificaciones</h3>
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                <a href="http://www.supersalud.gob.cl/portal/w3-channel.html" target="_top">
+                    <img class="img-fluid" src="{% static 'images/certificacion1.png' %}" alt="Sello Acreditada por Superintendencia de Salud">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://www.merco.info/cl/ranking-merco-empresas?edicion=2021" target="_top">
+                    <img class="img-fluid" src="{% static 'images/certificacion2.png' %}" alt="Sello Merco">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://www.youtube.com/watch?v=knQo8Y36_8s&amp;ab_channel=BupaChile" target="_top">
+                    <img class="img-fluid" src="{% static 'images/certificacion3.png' %}" alt="Sello Mutual Aprobado Protocolos Preventivos Covid-19">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://www.enel.cl/es/historias.html" target="_top">
+                    <img class="img-fluid" src="{% static 'images/certificacion4.png' %}" alt="Sello Certificado de Energia Renovable no Convencional 2018 Enel">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+<!-- Custom CSS for the button and cards -->
+<style>
+    .btn-custom {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        transition: background-color 0.3s, transform 0.3s;
+        font-weight: bold;
+    }
+    .btn-custom:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: scale(1.05);
+    }
+    .animated-btn {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .btn-silver {
+        background-color: silver;
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .btn-silver:hover {
+        background-color: #b0b0b0;
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        background: #f8f9fa;
+        padding: 20px;
+    }
+</style>

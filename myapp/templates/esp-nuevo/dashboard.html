@@ -1,0 +1,290 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Dashboard del Especialista{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h2>Dashboard del Especialista</h2>
+            <p class="lead text-muted">Visualiza y gestiona tus citas desde esta interfaz central.</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Horarios Hoy</h5>
+                    <p class="card-text display-4">{{ horarios_hoy }}</p>
+                    <a href="{% url 'citas_hoy' %}" class="btn btn-custom">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Horarios de la Semana</h5>
+                    <p class="card-text display-4">{{ horarios_semana }}</p>
+                    <a href="{% url 'citas_semana' %}" class="btn btn-custom">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Horarios del Mes</h5>
+                    <p class="card-text display-4">{{ horarios_mes }}</p>
+                    <a href="{% url 'citas_mes' %}" class="btn btn-custom">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Horarios</h5>
+                    <p class="card-text display-4">{{ total_horarios }}</p>
+                    <a href="{% url 'citas_totales' %}" class="btn btn-custom">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Jornada Laboral</h5>
+                    <img src="{% static 'images/asignar_horario.png' %}" alt="Jornada Laboral" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Visualiza, gestiona y modifica tus horarios de atención.</p>
+                    <a href="{% url 'calendario_especialista' %}" class="btn btn-custom">Ir al Calendario</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Buscar Pacientes</h5>
+                    <img src="{% static 'images/buscar.png' %}" alt="Buscar Pacientes" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Buscar y ver el historial de pacientes.</p>
+                    <a href="{% url 'buscar_pacientes' %}" class="btn btn-custom">Buscar Pacientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Citas Confirmadas</h5>
+                    <img src="{% static 'images/confirmar.png' %}" alt="Buscar Pacientes" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Ver y gestionar citas confirmadas.</p>
+                    <a href="{% url 'citas_confirmadas' %}" class="btn btn-custom">Ver Citas Confirmadas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-center">Estadísticas</h3>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Citas por Especialidad</h5>
+                    <div style="height: 400px;">
+                        <canvas id="citasPorEspecialidad"></canvas>
+                    </div>
+                    <div id="citasPorEspecialidadData" class="chart-data"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Atención por Estado</h5>
+                    <div style="height: 400px;">
+                        <canvas id="atencionPorEstado"></canvas>
+                    </div>
+                    <div id="atencionPorEstadoData" class="chart-data"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Especialistas por Área</h5>
+                    <div style="height: 400px;">
+                        <canvas id="especialistasPorArea"></canvas>
+                    </div>
+                    <div id="especialistasPorAreaData" class="chart-data"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+    .card-title {
+        color: #343a40;
+        font-weight: bold;
+    }
+    .btn-custom {
+        background-color: #FF4081;
+        border: none;
+        color: #fff;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    .btn-custom:hover {
+        background-color: #E91E63;
+        transform: scale(1.05);
+    }
+    .btn-custom:active {
+        background-color: #C2185B;
+    }
+    .card-text {
+        color: #6c757d;
+    }
+    .chart-data {
+        background-color: rgba(192, 192, 192, 0.5);
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const colors = {
+        citas: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+        citasBorder: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
+        atencion: ['rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(255, 205, 86, 0.2)'],
+        atencionBorder: ['rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(75, 192, 192, 1)', 'rgba(255, 205, 86, 1)'],
+        area: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+        areaBorder: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
+    };
+
+    // Gráfico de Citas por Especialidad
+    var ctx1 = document.getElementById('citasPorEspecialidad').getContext('2d');
+    var citasPorEspecialidad = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: [{% for item in citas_por_especialidad %}'{{ item.horario_atencion__especialista__especialidad__nombre }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Citas por Especialidad',
+                data: [{% for item in citas_por_especialidad %}{{ item.count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                backgroundColor: colors.citas,
+                borderColor: colors.citasBorder,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // Mostrar solo números enteros
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeOutBounce'
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('citasPorEspecialidadData').innerHTML = `
+        {% for item in citas_por_especialidad %}
+            <p>{{ item.horario_atencion__especialista__especialidad__nombre }}: {{ item.count }}</p>
+        {% endfor %}
+    `;
+
+    // Gráfico de Atención por Estado
+    var ctx2 = document.getElementById('atencionPorEstado').getContext('2d');
+    var atencionPorEstado = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: [{% for item in atencion_por_estado %}'{{ item.estado }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Atención por Estado',
+                data: [{% for item in atencion_por_estado %}{{ item.count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                backgroundColor: colors.atencion,
+                borderColor: colors.atencionBorder,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1500,
+                easing: 'easeOutBounce'
+            },
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    ticks: {
+                        stepSize: 1 // Mostrar solo números enteros
+                    }
+                }
+            }
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('atencionPorEstadoData').innerHTML = `
+        {% for item in atencion_por_estado %}
+            <p>{{ item.estado }}: {{ item.count }}</p>
+        {% endfor %}
+    `;
+
+    // Gráfico de Especialistas por Área
+    var ctx3 = document.getElementById('especialistasPorArea').getContext('2d');
+    var especialistasPorArea = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: [{% for item in especialistas_por_area %}'{{ item.especialidad__nombre }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Especialistas por Área',
+                data: [{% for item in especialistas_por_area %}{{ item.count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                backgroundColor: colors.area,
+                borderColor: colors.areaBorder,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1 // Mostrar solo números enteros
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeOutBounce'
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('especialistasPorAreaData').innerHTML = `
+        {% for item in especialistas_por_area %}
+            <p>{{ item.especialidad__nombre }}: {{ item.count }}</p>
+        {% endfor %}
+    `;
+});
+</script>
+{% endblock %}

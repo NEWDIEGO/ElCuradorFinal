@@ -1,0 +1,108 @@
+{% extends "home/base.html" %}
+{% block title %}Historial Médico{% endblock %}
+{% block content %}
+<div id="historial-medico-container" class="container mt-5">
+    <h2 class="text-center mb-4">Historial Médico</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Especialista</th>
+                    <th>Especialidad</th>
+                    <th>Reserva</th>
+                    <th>Estado</th>
+                    <th>Comentario del Especialista</th>
+                    <th>Comentario del Paciente</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in historial %}
+                    <tr class="table-row">
+                        <td>{{ item.fecha|date:"d/m/Y" }}</td>
+                        <td>{{ item.reserva.horario_atencion.hora_inicio }} - {{ item.reserva.horario_atencion.hora_fin }}</td>
+                        <td>{{ item.especialista.nombre }} {{ item.especialista.apellido_paterno }}</td>
+                        <td>{{ item.especialista.especialidad.nombre }}</td>
+                        <td>{{ item.reserva.nro_reserva }}</td>
+                        <td>
+                            <span class="badge 
+                            {% if item.reserva.estado == 'asignado' %}badge-warning{% elif item.reserva.estado == 'solucionado' %}badge-success{% elif item.reserva.estado == 'cancelado' %}badge-danger{% endif %}">
+                                {{ item.reserva.estado|capfirst }}
+                            </span>
+                        </td>
+                        <td>{{ item.comentario|default:"Sin comentarios" }}</td>
+                        <td>{{ item.reserva.comentario|default:"Sin comentarios" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">No hay historial médico disponible.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'areas' %}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+</div>
+
+<style>
+    #historial-medico-container {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    #historial-medico-container h2 {
+        color: #333333;
+        font-weight: bold;
+    }
+
+    #historial-medico-container .table {
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    #historial-medico-container .table thead th {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    #historial-medico-container .table tbody tr {
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #historial-medico-container .table tbody tr:hover {
+        background-color: #e9ecef;
+        transform: scale(1.01);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #historial-medico-container .badge {
+        font-size: 90%;
+        color: #000000;
+    }
+
+    #historial-medico-container .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #1d0303;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #historial-medico-container .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
+{% endblock %}

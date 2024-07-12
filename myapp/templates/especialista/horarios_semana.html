@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Horarios Médicos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Día de la Semana</th>
+                <th>Fecha</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+                <th>Duración Cita (min)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for horario in horarios %}
+            <tr>
+                <td>{{ horario.dia_semana }}</td>
+                <td>{{ horario.fecha }}</td>
+                <td>{{ horario.hora_inicio }}</td>
+                <td>{{ horario.hora_fin }}</td>
+                <td>{{ horario.duracion_cita }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .filters select {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .schedule {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .schedule th, .schedule td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .schedule th {
+            background-color: #f9f9f9;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buttons button.cancel {
+            background-color: #dc3545;
+        }
+        .buttons button.back {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Horarios de la Semana</h1>
+        </div>
+        <div class="filters">
+            <select id="monthSelect">
+                <!-- Populate with JavaScript -->
+            </select>
+            <select id="weekSelect">
+                <!-- Populate with JavaScript -->
+            </select>
+        </div>
+        <table class="schedule">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>Sábado</th>
+                    <th>Domingo</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleBody">
+                <!-- Populate with JavaScript -->
+            </tbody>
+        </table>
+        <div class="buttons">
+            <button>Perfil del Paciente</button>
+            <button class="cancel">Cancelar Hora</button>
+            <button class="back">Volver</button>
+        </div>
+    </div>
+    <script>
+        const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const weeks = ["Semana 1", "Semana 2", "Semana 3", "Semana 4", "Semana 5"];
+
+        function populateSelect(selectId, options) {
+            const select = document.getElementById(selectId);
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option;
+                opt.textContent = option;
+                select.appendChild(opt);
+            });
+        }
+
+        function populateSchedule() {
+            const scheduleBody = document.getElementById("scheduleBody");
+            scheduleBody.innerHTML = "";
+
+            for (let hour = 8; hour <= 17; hour++) {
+                const row = document.createElement("tr");
+
+                const hourCell = document.createElement("td");
+                hourCell.textContent = `${hour}:00`;
+                row.appendChild(hourCell);
+
+                for (let day = 0; day < 7; day++) {
+                    const cell = document.createElement("td");
+                    // Placeholder for dynamic content
+                    cell.textContent = "";
+                    row.appendChild(cell);
+                }
+
+                scheduleBody.appendChild(row);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            populateSelect("monthSelect", months);
+            populateSelect("weekSelect", weeks);
+            populateSchedule();
+        });
+    </script>
+</body>
+</html>

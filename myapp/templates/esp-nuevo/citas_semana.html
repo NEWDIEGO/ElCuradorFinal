@@ -1,0 +1,34 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Citas de la Semana{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Citas de la Semana</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Paciente</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cita in citas %}
+            <tr>
+                <td>{{ cita.agendar_hora|date:"Y-m-d" }}</td>
+                <td>{{ cita.agendar_hora|date:"H:i" }}</td>
+                <td>{{ cita.cliente.nombre }} {{ cita.cliente.apellido_paterno }}</td>
+                <td>{{ cita.estado }}</td>
+                <td>
+                    <a href="{% url 'confirmar_cita' cita.id %}" class="btn btn-success btn-sm">Confirmar</a>
+                    <a href="{% url 'cancelar_cita' cita.id %}" class="btn btn-danger btn-sm">Cancelar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary mt-3">Volver</a>
+</div>
+{% endblock %}

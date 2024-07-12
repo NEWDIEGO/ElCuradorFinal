@@ -1,0 +1,47 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Citas Confirmadas{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Citas Confirmadas</h2>
+    <div class="accordion" id="citasAccordion">
+        {% if citas_confirmadas %}
+            {% for reserva in citas_confirmadas %}
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header" id="heading{{ forloop.counter }}" style="background-color: #f8f9fa;">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                <strong>{{ reserva.horario_atencion.fecha }} {{ reserva.horario_atencion.hora_inicio }} - {{ reserva.horario_atencion.hora_fin }}</strong> 
+                                <span class="badge badge-success">Confirmado</span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#citasAccordion">
+                        <div class="card-body" style="background-color: #e9ecef;">
+                            <p><strong>Fecha:</strong> {{ reserva.horario_atencion.fecha }}</p>
+                            <p><strong>Hora Inicio:</strong> {{ reserva.horario_atencion.hora_inicio }}</p>
+                            <p><strong>Hora Fin:</strong> {{ reserva.horario_atencion.hora_fin }}</p>
+                            <p><strong>Duración de la Cita:</strong> {{ reserva.horario_atencion.duracion_cita }} minutos</p>
+                            <p><strong>Paciente:</strong> {{ reserva.cliente.nombre }} {{ reserva.cliente.apellido_paterno }}</p>
+                            <p><strong>Correo:</strong> {{ reserva.cliente.correo }}</p>
+                            <p><strong>Teléfono:</strong> {{ reserva.cliente.telefono }}</p>
+                            <p><strong>Estado:</strong> {{ reserva.estado }}</p>
+                            <p><strong>Comentario:</strong> {{ reserva.comentario }}</p>
+                            <a href="{% url 'solucionar_cita' reserva.id %}" class="btn btn-primary btn-sm">Marcar como Solucionada</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No hay citas confirmadas disponibles.</p>
+        {% endif %}
+    </div>
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+</div>
+
+<!-- Agregar los scripts de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

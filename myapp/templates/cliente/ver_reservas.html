@@ -1,0 +1,41 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Ver mis Reservas{% endblock %}
+
+{% block content %}
+<div class="container mt-5 admin-page" style="max-width: 900px;">
+    <h2 class="text-center">Mis horas reservadas</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Tipo Agenda</th>
+                <th>Profesional Encargado</th>
+                <th>Nº Reserva</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.cliente.nombre }} {{ reserva.cliente.apellido_paterno }}</td>
+                <td>{{ reserva.horario_atencion.fecha|date:"d/m/Y" }}</td>
+                <td>{{ reserva.horario_atencion.hora_inicio|time:"H:i" }}</td>
+                <td>{{ reserva.horario_atencion.especialista.especialidad.nombre }}</td>
+                <td>{{ reserva.horario_atencion.especialista.nombre }} {{ reserva.horario_atencion.especialista.apellido_paterno }}</td>
+                <td>{{ reserva.nro_reserva }}</td>
+                <td>{{ reserva.estado }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No tienes reservas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn btn-secondary mt-3" onclick="window.location.href='{% url 'home' %}'">Volver</button>
+</div>
+{% endblock %}

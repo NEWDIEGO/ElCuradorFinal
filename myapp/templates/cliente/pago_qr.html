@@ -1,0 +1,34 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Pago QR{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Detalles de la Reserva</h2>
+    <div class="card">
+        <div class="card-body">
+            
+            
+            <h5 class="card-title">Especialista: {{ reserva.especialista }}</h5>
+            <p class="card-text">Fecha: {{ reserva.fecha }}</p>
+            <p class="card-text">Hora Inicio: {{ reserva.hora_inicio }}</p>
+            <p class="card-text">Hora Fin: {{ reserva.hora_fin }}</p>
+            <p class="card-text">Duración: {{ reserva.duracion }} minutos</p>
+            <p class="card-text">Especialidad: {{ reserva.especialidad }}</p>
+            <p class="card-text">costo: {{ reserva.valor }}</p>
+            <a id="descargarPdfBtn" href="#" class="btn btn-primary mt-3" download="comprobante.pdf">Descargar PDF</a>
+            <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Volver</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const descargarPDFBtn = document.getElementById('descargarPdfBtn');
+        descargarPDFBtn.addEventListener('click', function () {
+            // Lógica para descargar el PDF
+        });
+    });
+</script>
+{% endblock %}

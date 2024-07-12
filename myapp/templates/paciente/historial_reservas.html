@@ -1,0 +1,160 @@
+{% extends "home/base.html" %}
+
+{% block title %}Historial de Reservas{% endblock %}
+
+{% block content %}
+<div id="historial-reservas-container" class="container mt-5">
+    <h2 class="text-center mb-4">Historial de Reservas</h2>
+    
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label for="filtro_estado">Filtrar por Estado:</label>
+            <select id="filtro_estado" class="form-control">
+                <option value="">Todos</option>
+                <option value="asignado">Asignado</option>
+                <option value="solucionado">Solucionado</option>
+                <option value="cancelado">Cancelado</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="filtro_area">Filtrar por Área:</label>
+            <select id="filtro_area" class="form-control">
+                <option value="">Todas</option>
+                {% for area in areas %}
+                    <option value="{{ area.id }}">{{ area.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Especialista</th>
+                    <th>Estado</th>
+                    <th>Comentario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="reserva_body">
+                {% for reserva in reservas %}
+                    <tr class="table-row" data-estado="{{ reserva.estado }}" data-area="{{ reserva.horario_atencion.especialista.especialidad.id }}">
+                        <td>{{ reserva.agendar_hora|date:"d/m/Y H:i" }}</td>
+                        <td>{{ reserva.horario_atencion.especialista.nombre }} {{ reserva.horario_atencion.especialista.apellido_paterno }}</td>
+                        <td>
+                            <span class="badge 
+                            {% if reserva.estado == 'asignado' %}badge-warning{% elif reserva.estado == 'solucionado' %}badge-success{% elif reserva.estado == 'cancelado' %}badge-danger{% endif %}">
+                                {{ reserva.estado|capfirst }}
+                            </span>
+                        </td>
+                        <td>{{ reserva.comentario|default:"Sin comentarios" }}</td>
+                        <td>
+                            <a href="{% url 'generate_pdf' reserva.id %}" class="btn btn-sm btn-primary">PDF</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay reservas en el historial.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'areas' %}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+</div>
+
+<style>
+    #historial-reservas-container {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    #historial-reservas-container h2 {
+        color: #333333;
+        font-weight: bold;
+    }
+
+    #historial-reservas-container .table {
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    #historial-reservas-container .table thead th {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    #historial-reservas-container .table tbody tr {
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #historial-reservas-container .table tbody tr:hover {
+        background-color: #e9ecef;
+        transform: scale(1.01);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #historial-reservas-container .badge {
+        font-size: 90%;
+        color: #000000;
+    }
+
+    #historial-reservas-container .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #1d0303;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #historial-reservas-container .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filtroEstado = document.getElementById('filtro_estado');
+    const filtroArea = document.getElementById('filtro_area');
+    const reservaRows = document.querySelectorAll('#reserva_body .table-row');
+
+    function filtrarReservas() {
+        const estado = filtroEstado.value;
+        const area = filtroArea.value;
+
+        reservaRows.forEach(row => {
+            const rowEstado = row.getAttribute('data-estado');
+            const rowArea = row.getAttribute('data-area');
+
+            const estadoMatch = estado === "" || rowEstado === estado;
+            const areaMatch = area === "" || rowArea === area;
+
+            if (estadoMatch && areaMatch) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    filtroEstado.addEventListener('change', filtrarReservas);
+    filtroArea.addEventListener('change', filtrarReservas);
+});
+</script>
+
+{% endblock %}

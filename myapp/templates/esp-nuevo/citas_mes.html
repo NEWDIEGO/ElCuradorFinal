@@ -1,0 +1,40 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Citas del Mes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Citas del Mes</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Paciente</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cita in citas %}
+            <tr>
+                <td>{{ cita.agendar_hora|date:"Y-m-d" }}</td>
+                <td>{{ cita.agendar_hora|date:"H:i" }}</td>
+                <td>{{ cita.cliente.nombre }} {{ cita.cliente.apellido_paterno }}</td>
+                <td>{{ cita.estado }}</td>
+                <td>
+                    <form method="post" action="{% url 'confirmar_cita' cita.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">Confirmar</button>
+                    </form>
+                    <form method="post" action="{% url 'cancelar_cita' cita.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary mt-3">Volver</a>
+</div>
+{% endblock %}

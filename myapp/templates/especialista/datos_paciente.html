@@ -1,0 +1,42 @@
+{% extends "home/base.html" %}
+{% block content %}
+<div class="container mt-5 admin-page">
+    <h2 class="text-center">Datos del Paciente</h2>
+    <form>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" value="Martín">
+        </div>
+        <div class="form-group">
+            <label for="apellido_paterno">Apellido Paterno:</label>
+            <input type="text" class="form-control" id="apellido_paterno" value="González">
+        </div>
+        <div class="form-group">
+            <label for="apellido_materno">Apellido Materno:</label>
+            <input type="text" class="form-control" id="apellido_materno" value="Pérez">
+        </div>
+        <div class="form-group">
+            <label for="correo">Correo:</label>
+            <input type="email" class="form-control" id="correo" value="martin.gonzalez@example.com">
+        </div>
+        <div class="form-group">
+            <label for="telefono">Número Telefónico:</label>
+            <input type="text" class="form-control" id="telefono" value="56987654321">
+        </div>
+        <div class="form-group">
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" class="form-control" id="fecha_nacimiento" value="1990-11-22">
+        </div>
+        <div class="form-group">
+            <label for="genero">Género:</label>
+            <select class="form-control" id="genero">
+                <option selected>Masculino</option>
+                <option>Femenino</option>
+                <option>Otro</option>
+            </select>
+        </div>
+    </form>
+    <a href="{% url 'especialista_funciones' %}" class="btn btn-secondary mt-3">Volver</a>
+    <a href="{% url 'especialista_historial' %}" class="btn btn-primary mt-3">Ver Historial</a>
+</div>
+{% endblock %}

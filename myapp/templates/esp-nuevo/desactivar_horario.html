@@ -1,0 +1,55 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Desactivar Horario{% endblock %}
+
+{% block content %}
+<section class="hero-section-desactivar" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content-desactivar text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Desactivar Horario</h1>
+        <p>¿Está seguro que desea desactivar este horario?</p>
+    </div>
+</section>
+
+<div class="container mt-5 desactivar-container">
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-lg btn-block">Desactivar Horario</button>
+        <a href="{% url 'detalle_jornada_laboral' horario.fecha %}" class="btn btn-secondary btn-lg btn-block mt-3">Volver</a>
+    </form>
+</div>
+
+<!-- Agregar los scripts de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Estilos personalizados -->
+<style>
+    .desactivar-container .btn {
+        background-color: #FF4081;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #4e555b;
+        transition: all 0.2s ease;
+    }
+
+    .desactivar-container .btn:hover {
+        background-color: #E91E63;
+        box-shadow: 0 2px #4e555b;
+        transform: translateY(2px);
+    }
+
+    .desactivar-container .btn:active {
+        background-color: #C2185B;
+        box-shadow: 0 2px #4e555b;
+        transform: translateY(4px);
+    }
+
+    .hero-section-desactivar .hero-content-desactivar {
+        text-align: center;
+    }
+</style>
+{% endblock %}

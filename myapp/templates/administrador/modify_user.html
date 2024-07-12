@@ -1,0 +1,186 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Modificar Usuario{% endblock %}
+
+{% block extra_css %}
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .card {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-custom {
+        background-color: #FF4081;
+        border: none;
+        color: #ffffff;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-custom:hover {
+        background-color: #E91E63;
+        transform: scale(1.05);
+    }
+
+    .btn-custom:active {
+        background-color: #C2185B;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+    }
+
+    .error-message {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: #ffffff;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: scale(1.05);
+    }
+
+    .btn-secondary:active {
+        background-color: #545b62;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Modificar Usuario</h2>
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                        <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <form method="post" action="{% url 'admin_modify_user' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="text" name="search_query" class="form-control" placeholder="Buscar por nombre de usuario">
+                        </div>
+                        <button type="submit" name="search" class="btn btn-custom mb-3">Buscar</button>
+                        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Volver</a>
+                    </form>
+
+                    {% if found %}
+                    <div id="modifyForm">
+                        <form method="post" action="{% url 'admin_modify_user' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <!-- Campos para modificar usuario -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nuevo nombre de usuario</label>
+                                <input type="text" id="username" name="username" value="{{ user.username }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Nuevo correo electrónico</label>
+                                <input type="email" id="email" name="email" value="{{ user.email }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Nueva contraseña</label>
+                                <input type="password" id="password" name="password" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">Confirmar nueva contraseña</label>
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control">
+                            </div>
+
+                            <!-- Campos específicos de cliente -->
+                            {% if cliente %}
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" value="{{ cliente.nombre }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellido_paterno" class="form-label">Apellido paterno</label>
+                                <input type="text" id="apellido_paterno" name="apellido_paterno" value="{{ cliente.apellido_paterno }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellido_materno" class="form-label">Apellido materno</label>
+                                <input type="text" id="apellido_materno" name="apellido_materno" value="{{ cliente.apellido_materno }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" id="telefono" name="telefono" value="{{ cliente.telefono }}" class="form-control">
+                            </div>
+                            {% endif %}
+
+                            <!-- Campos específicos de especialista -->
+                            {% if especialista %}
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" value="{{ especialista.nombre }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellido_paterno" class="form-label">Apellido paterno</label>
+                                <input type="text" id="apellido_paterno" name="apellido_paterno" value="{{ especialista.apellido_paterno }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellido_materno" class="form-label">Apellido materno</label>
+                                <input type="text" id="apellido_materno" name="apellido_materno" value="{{ especialista.apellido_materno }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" id="telefono" name="telefono" value="{{ especialista.telefono }}" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="genero" class="form-label">Género</label>
+                                <select id="genero" name="genero" class="form-select">
+                                    <option value="M" {% if especialista.genero == 'M' %}selected{% endif %}>Masculino</option>
+                                    <option value="F" {% if especialista.genero == 'F' %}selected{% endif %}>Femenino</option>
+                                    <option value="O" {% if especialista.genero == 'O' %}selected{% endif %}>Otro</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="especialidad" class="form-label">Especialidad</label>
+                                <select id="especialidad" name="especialidad" class="form-select">
+                                    {% for especialidad in especialidades %}
+                                    <option value="{{ especialidad.id }}" {% if especialidad.id == especialista.especialidad.id %}selected{% endif %}>{{ especialidad.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% endif %}
+
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" name="modify" class="btn btn-custom">Guardar cambios</button>
+                                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Volver al Panel de Administrador</a>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

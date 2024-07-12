@@ -1,0 +1,9 @@
+<h2>Lista de Especialistas</h2>
+<ul>
+    {% for especialista in especialistas %}
+    <li>
+        <a href="{% url 'detalle_especialista' especialista.pk %}">{{ especialista.nombre }}</a>
+    </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'crear_especialista' %}">Crear Especialista</a>

@@ -1,0 +1,25 @@
+{% extends "home/base.html" %}
+{% block title %}Resultado de Exámenes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Resultado de Exámenes</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Especialista</th>
+                <th>Resultado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resultado in resultados %}
+                <tr>
+                    <td>{{ resultado.fecha }}</td>
+                    <td>{{ resultado.especialista.nombre }} {{ resultado.especialista.apellido_paterno }}</td>
+                    <td>{{ resultado.comentario }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

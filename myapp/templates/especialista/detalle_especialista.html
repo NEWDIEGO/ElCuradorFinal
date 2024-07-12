@@ -1,0 +1,7 @@
+<h2>Detalle del Especialista</h2>
+<p>Nombre: {{ especialista.nombre }}</p>
+<p>Correo: {{ especialista.correo }}</p>
+<p>Especialidad: {{ especialista.especialidad }}</p>
+<p>Teléfono: {{ especialista.telefono }}</p>
+<a href="{% url 'editar_especialista' especialista.pk %}">Editar</a>
+<a href="{% url 'eliminar_especialista' especialista.pk %}">Eliminar</a>

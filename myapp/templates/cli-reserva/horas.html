@@ -1,0 +1,101 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Horarios Disponibles{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Reserva tu Visita Médica</h1>
+        <p>Elige un día para programar tu cita</p>  
+    </div>
+</section>
+<nav style="display: flex; justify-content: center; margin: 20px 0;">
+    <a href="#" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+       onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+       onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+        Mis Reservas
+    </a>
+    <a href="#" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+       onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+       onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+        Historial Médico
+    </a>
+    <a href="#" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+       onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+       onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+        Resultado de Exámenes
+    </a>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="text-center">Horarios Disponibles para {{ fecha }}</h2>
+    <div class="accordion" id="horariosAccordion">
+        {% for horario in horarios %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header" id="heading{{ horario.id }}" style="background-color: #f8f9fa;">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ horario.id }}" aria-expanded="true" aria-controls="collapse{{ horario.id }}">
+                            <strong>{{ horario.hora_inicio|time:"H:i A" }} - {{ horario.hora_fin|time:"H:i A" }}</strong> con <strong>{{ horario.especialista.nombre }} {{ horario.especialista.apellido_paterno }}</strong>
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse{{ horario.id }}" class="collapse" aria-labelledby="heading{{ horario.id }}" data-parent="#horariosAccordion">
+                    <div class="card-body" style="background-color: #e9ecef;">
+                        <p><strong>Especialista:</strong> {{ horario.especialista.nombre }} {{ horario.especialista.apellido_paterno }}</p>
+                        <p><strong>Área:</strong> {{ area|capfirst }}</p>
+                        <p><strong>Hora Inicio:</strong> {{ horario.hora_inicio|time:"H:i A" }}</p>
+                        <p><strong>Hora Fin:</strong> {{ horario.hora_fin|time:"H:i A" }}</p>
+                        <p><strong>Duración de la Cita:</strong> {{ horario.duracion_cita }} minutos</p>
+                        <p><strong>Consultorio:</strong> El Curador</p>
+                        <p><strong>Valor:</strong> ${{ horario.costo }}</p>
+                        <p><strong>Previsión:</strong> {{ prevision }}</p>
+                        <p><strong>Descuento:</strong> {{ descuento }}%</p>
+                        <p><strong>Total a Pagar:</strong> ${{ horario.total_a_pagar }}</p>
+                        <a href="{% url 'reserva2' horario.id %}" class="btn btn-custom">Reservar</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'calendario' %}?area={{ area }}" class="btn btn-secondary mt-3">Volver al Calendario</a>
+</div>
+
+<!-- Agregar los scripts de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Estilos personalizados -->
+<style>
+    .btn-custom {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #4e555b;
+        transition: all 0.2s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #5a6268;
+        box-shadow: 0 2px #4e555b;
+        transform: translateY(2px);
+    }
+
+    .btn-custom:active {
+        background-color: #545b62;
+        box-shadow: 0 2px #4e555b;
+        transform: translateY(4px);
+    }
+
+    .btn-link {
+        color: #6c757d;
+    }
+
+    .btn-link:hover {
+        color: #5a6268;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Activar Horario{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Activar Horario</h1>
+        <p>¿Está seguro que desea activar este horario?</p>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success btn-lg btn-block">Activar Horario</button>
+        <a href="{% url 'detalle_jornada_laboral' horario.fecha %}" class="btn btn-secondary btn-lg btn-block mt-3">Volver</a>
+    </form>
+</div>
+
+<!-- Agregar los scripts de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Estilos personalizados -->
+<style>
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #218838;
+        transition: all 0.2s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        box-shadow: 0 2px #218838;
+        transform: translateY(2px);
+    }
+
+    .btn-success:active {
+        background-color: #1e7e34;
+        box-shadow: 0 2px #218838;
+        transform: translateY(4px);
+    }
+
+    .hero-section .hero-content {
+        text-align: center;
+    }
+</style>
+{% endblock %}

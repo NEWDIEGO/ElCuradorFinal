@@ -1,0 +1,37 @@
+{% extends 'home/base.html' %}
+{% block title %}Resultados de Búsqueda de Pacientes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Resultados de Búsqueda de Pacientes</h2>
+    {% for entry in historiales %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h3>{{ entry.paciente.nombre }} {{ entry.paciente.apellido_paterno }} {{ entry.paciente.apellido_materno }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>RUN:</strong> {{ entry.paciente.run }}</p>
+                <p><strong>Correo:</strong> {{ entry.paciente.correo }}</p>
+                <p><strong>Fecha de Nacimiento:</strong> {{ entry.paciente.fecha_nacimiento }}</p>
+                <p><strong>Género:</strong> {{ entry.paciente.genero }}</p>
+                <p><strong>Teléfono:</strong> {{ entry.paciente.telefono }}</p>
+                <p><strong>Previsión:</strong> {{ entry.paciente.prevision }}</p>
+                
+                <h5>Historial Médico</h5>
+                {% if entry.historial %}
+                    <ul class="list-group">
+                        {% for historial in entry.historial %}
+                            <li class="list-group-item">
+                                <strong>Fecha:</strong> {{ historial.fecha }}<br>
+                                <strong>Comentario:</strong> {{ historial.comentario }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No hay historial médico disponible.</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary">Volver al Dashboard</a>
+</div>
+{% endblock %}

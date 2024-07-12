@@ -1,0 +1,48 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Solucionar Cita{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2 class="mb-4">Solucionar Cita</h2>
+            <p class="lead">¿Estás seguro de que deseas marcar esta cita como solucionada?</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="comentario">Comentario del Médico</label>
+                            <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-lg mb-3">Marcar como Solucionada</button>
+                        <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary btn-lg mb-3">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+    .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #d39e00;
+    }
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+</style>
+{% endblock %}

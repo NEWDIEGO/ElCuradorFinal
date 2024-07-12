@@ -1,0 +1,101 @@
+{% extends "home/base.html" %}
+
+{% block title %}Mis Reservas{% endblock %}
+
+{% block content %}
+<div id="mis-reservas-container" class="container mt-5">
+    <h2 class="text-center mb-4">Mis Reservas</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Especialista</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.horario_atencion.fecha|date:"d/m/Y" }}</td>
+                        <td>{{ reserva.horario_atencion.hora_inicio|time:"H:i" }} - {{ reserva.horario_atencion.hora_fin|time:"H:i" }}</td>
+                        <td>{{ reserva.horario_atencion.especialista.nombre }} {{ reserva.horario_atencion.especialista.apellido_paterno }}</td>
+                        <td>
+                            <a href="{% url 'cancelar_reserva' reserva.id %}" class="btn btn-danger btn-sm">Anular</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No tienes reservas asignadas o confirmadas.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'areas' %}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+</div>
+
+<style>
+    #mis-reservas-container {
+        background-color: #e2e2e2;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #mis-reservas-container h2 {
+        color: #333;
+        font-weight: bold;
+    }
+
+    #mis-reservas-container .table {
+        margin-top: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    #mis-reservas-container .table thead th {
+        background-color: #343a40;
+        color: #e2e2e2;
+    }
+
+    #mis-reservas-container .table tbody tr {
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #mis-reservas-container .table tbody tr:hover {
+        background-color: #d3d3d3;
+        transform: scale(1.01);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #mis-reservas-container .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: #fff;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #mis-reservas-container .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: scale(1.05);
+    }
+
+    #mis-reservas-container .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #fff;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #mis-reservas-container .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

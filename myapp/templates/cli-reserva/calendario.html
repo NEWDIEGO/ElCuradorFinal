@@ -1,0 +1,85 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Selecciona una Fecha{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Programa tu Cita Médica</h1>
+        <p>Elige un día para agendar tu consulta</p>        
+    </div>
+</section>
+<nav style="display: flex; justify-content: center; margin: 20px 0;">
+    <a href="{% url 'mis_reservas' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+       onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+       onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+        Mis Reservas
+    </a>
+    <a href="{% url 'historial_medico' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+       onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+       onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+        Historial Médico
+    </a>
+    <a href="{% url 'resultado_examenes' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+       onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+       onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+        Resultado de Exámenes
+    </a>
+</nav>
+<div class="container mt-5">
+    <h2 class="text-center">Selecciona una Fecha para {{ area }}</h2>
+    <div id="calendar"></div>
+    <a href="{% url 'areas' %}" class="btn btn-secondary mt-3">Volver a Áreas</a>
+</div>
+
+<!-- Agregar FullCalendar -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css' rel='stylesheet' />
+<style>
+    .fc .fc-daygrid-day-number {
+        color: black;
+    }
+    .fc-daygrid-day {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .fc-day-today {
+        background-color: #f5f5f5 !important;
+    }
+    .fc-event {
+        background-color: #007bff !important; /* Cambia el color del evento disponible a azul oscuro */
+        color: white !important;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var today = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            validRange: {
+                start: today // Restringir la selección de fechas anteriores a hoy
+            },
+            events: {
+                url: "{% url 'obtener_dias_disponibles' area %}",
+                failure: function() {
+                    alert('there was an error while fetching events!');
+                }
+            },
+            dateClick: function(info) {
+                if (info.dateStr >= today) {
+                    window.location.href = "{% url 'detalles_horarios' %}?fecha=" + info.dateStr + "&area={{ area }}";
+                }
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+{% endblock %}

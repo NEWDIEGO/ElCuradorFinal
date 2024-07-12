@@ -1,0 +1,53 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% load static %}
+<div class="container my-5">
+    <div class="row mb-4 text-center">
+        <div class="col">
+            <h1 class="display-4 text-dark wow fadeInDown">Salud Mental</h1>
+            <p class="lead text-muted wow fadeInDown">Descubre cómo podemos ayudarte a mejorar tu bienestar emocional y psicológico.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInLeft">
+        <div class="col-md-6">
+            <h2 class="text-primary">Consultas Psiquiátricas</h2>
+            <p class="text-muted">Ofrecemos consultas psiquiátricas para diagnosticar y tratar una amplia gama de trastornos mentales y emocionales, incluyendo depresión, ansiedad, trastorno bipolar y más. Nuestro equipo de psiquiatras utiliza enfoques basados en evidencia para proporcionarte la mejor atención posible.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/consultas_psiquiatricas.webp' %}" class="img-fluid rounded shadow" alt="Consultas Psiquiátricas" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInRight">
+        <div class="col-md-6 order-md-2">
+            <h2 class="text-primary">Terapias Grupales</h2>
+            <p class="text-muted">En nuestras terapias grupales, facilitamos un espacio seguro y de apoyo donde los participantes pueden compartir experiencias y recibir apoyo mutuo. Estas sesiones, guiadas por profesionales experimentados, son muy beneficiosas para tu recuperación, asegurando que todos los participantes se sientan escuchados y valorados.</p>
+        </div>
+        <div class="col-md-6 order-md-1">
+            <img src="{% static 'images/terapias_grupales.jpg' %}" class="img-fluid rounded shadow" alt="Terapias Grupales" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInLeft">
+        <div class="col-md-6">
+            <h2 class="text-primary">Evaluación y Diagnóstico</h2>
+            <p class="text-muted">Realizamos evaluaciones y diagnósticos completos para entender mejor tus necesidades y desafíos específicos. Utilizamos una variedad de herramientas y técnicas para asegurarnos de que recibas el diagnóstico más preciso posible, ayudándote a alcanzar una mejor salud mental.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/evaluacion_diagnostico.jpeg' %}" class="img-fluid rounded shadow" alt="Evaluación y Diagnóstico" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInRight">
+        <div class="col-md-6 order-md-2">
+            <h2 class="text-primary">Programas de Bienestar</h2>
+            <p class="text-muted">Nuestros programas de bienestar están diseñados para ayudarte a mantener un equilibrio emocional y psicológico a través de una variedad de actividades y prácticas saludables, promoviendo tu bienestar mental a largo plazo.</p>
+        </div>
+        <div class="col-md-6 order-md-1">
+            <img src="{% static 'images/programas_bienestar.jpg' %}" class="img-fluid rounded shadow" alt="Programas de Bienestar" style="width: 100%; height: auto;">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

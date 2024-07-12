@@ -1,0 +1,68 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Anular Hora{% endblock %}
+
+{% block content %}
+<div class="container mt-5 admin-page" style="max-width: 900px;">
+    <h2 class="text-center">Anular Hora</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Tipo Agenda</th>
+                <th>Profesional Encargado</th>
+                <th>Nº Reserva</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.cliente.nombre }} {{ reserva.cliente.apellido_paterno }}</td>
+                <td>{{ reserva.horario_atencion.fecha|date:"d/m/Y" }}</td>
+                <td>{{ reserva.horario_atencion.hora_inicio|time:"H:i" }}</td>
+                <td>{{ reserva.horario_atencion.especialista.especialidad.nombre }}</td>
+                <td>{{ reserva.horario_atencion.especialista.nombre }} {{ reserva.horario_atencion.especialista.apellido_paterno }}</td>
+                <td>{{ reserva.nro_reserva }}</td>
+                <td>
+                    <form method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
+                        <button type="submit" class="btn btn-danger">Anular Hora</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn btn-secondary mt-3" onclick="window.location.href='{% url 'home' %}'">Volver</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                fetch('', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.closest('tr').remove();
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% load static %}
+<div class="container my-5">
+    <div class="row mb-4 text-center">
+        <div class="col">
+            <h1 class="display-4 text-dark wow bounceInDown">Medicina General</h1>
+            <p class="lead text-muted wow bounceInDown">Servicios de atención primaria y prevención para tu bienestar general.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow zoomIn">
+        <div class="col-md-6">
+            <img src="{% static 'images/consultas_generales.jpg' %}" class="img-fluid rounded shadow-lg" alt="Consultas Generales" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-primary">Consultas Generales</h2>
+            <p class="text-muted">Realizamos consultas generales para diagnosticar y tratar una amplia variedad de enfermedades y condiciones. Nuestro equipo de profesionales está preparado para proporcionarte la mejor atención médica.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow zoomIn">
+        <div class="col-md-6 order-md-2">
+            <img src="{% static 'images/chequeos_preventivos.jpg' %}" class="img-fluid rounded shadow-lg" alt="Chequeos Preventivos" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h2 class="text-primary">Chequeos Preventivos</h2>
+            <p class="text-muted">Ofrecemos chequeos preventivos regulares para detectar posibles problemas de salud antes de que se conviertan en condiciones más serias. La prevención es la clave para una vida saludable.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow zoomIn">
+        <div class="col-md-6">
+            <img src="{% static 'images/enfermedades_cronicas.jpg' %}" class="img-fluid rounded shadow-lg" alt="Control de Enfermedades Crónicas" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-primary">Control de Enfermedades Crónicas</h2>
+            <p class="text-muted">Proporcionamos seguimiento y tratamiento continuo para pacientes con enfermedades crónicas como diabetes, hipertensión, y asma, asegurando una calidad de vida óptima.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow zoomIn">
+        <div class="col-md-6 order-md-2">
+            <img src="{% static 'images/vacunacion.jpg' %}" class="img-fluid rounded shadow-lg" alt="Vacunación" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h2 class="text-primary">Vacunación</h2>
+            <p class="text-muted">Ofrecemos servicios de vacunación para protegerte contra diversas enfermedades. La vacunación es una de las maneras más efectivas de prevenir enfermedades infecciosas.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

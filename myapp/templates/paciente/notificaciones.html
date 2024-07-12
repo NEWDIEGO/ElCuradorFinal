@@ -1,0 +1,14 @@
+{% extends "home/base.html" %}
+{% block title %}Notificaciones{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Notificaciones</h2>
+    <ul class="list-group">
+        {% for notificacion in notificaciones %}
+            <li class="list-group-item {{ 'list-group-item-success' if not notificacion.leido else '' }}">
+                {{ notificacion.mensaje }} - {{ notificacion.fecha }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

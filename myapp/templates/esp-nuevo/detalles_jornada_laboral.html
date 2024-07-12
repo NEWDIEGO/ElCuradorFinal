@@ -1,0 +1,151 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Detalle de Jornada Laboral{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Detalle de Jornada Laboral</h1>
+        <p>Aquí puedes ver todos los horarios asignados para el día seleccionado.</p>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <h2 class="text-center">Detalle de Jornada Laboral para {{ fecha }}</h2>
+    <div class="accordion" id="horariosAccordion">
+        {% for detalle in detalles %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header" id="heading{{ forloop.counter }}" style="background-color: #f8f9fa;">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                            <strong>{{ detalle.hora_inicio }} - {{ detalle.hora_fin }}</strong> {% if detalle.cliente != 'Ninguno' %}con <strong>{{ detalle.cliente }}</strong>{% endif %}
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#horariosAccordion">
+                    <div class="card-body" style="background-color: #e9ecef;">
+                        <p><strong>Hora Inicio:</strong> {{ detalle.hora_inicio }}</p>
+                        <p><strong>Hora Fin:</strong> {{ detalle.hora_fin }}</p>
+                        <p><strong>Duración de la Cita:</strong> {{ detalle.duracion_cita }} minutos</p>
+                        {% if detalle.cliente != 'Ninguno' %}
+                            <p><strong>Cliente:</strong> {{ detalle.cliente }}</p>
+                            <a href="{% url 'cancelar_cita' detalle.reserva_id %}" class="btn btn-warning btn-sm">Cancelar</a>
+                            <a href="{% url 'reagendar_cita' detalle.reserva_id %}" class="btn btn-pink btn-sm">Reagendar</a>
+                        {% else %}
+                            {% if detalle.activo %}
+                                <a href="{% url 'desactivar_horario' detalle.horario_id %}" class="btn btn-danger btn-sm">Desactivar</a>
+                            {% else %}
+                                <a href="{% url 'activar_horario' detalle.horario_id %}" class="btn btn-success btn-sm">Activar</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'calendario_especialista' %}" class="btn btn-secondary mt-3">Volver al Calendario</a>
+</div>
+
+<!-- Agregar los scripts de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Estilos personalizados -->
+<style>
+    .btn-pink {
+        background-color: #ff4081;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #e91e63;
+        transition: all 0.2s ease;
+    }
+
+    .btn-pink:hover {
+        background-color: #e91e63;
+        box-shadow: 0 2px #e91e63;
+        transform: translateY(2px);
+    }
+
+    .btn-pink:active {
+        background-color: #d81b60;
+        box-shadow: 0 2px #e91e63;
+        transform: translateY(4px);
+    }
+
+    .btn-link {
+        color: #6c757d;
+    }
+
+    .btn-link:hover {
+        color: #5a6268;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #e0a800;
+        transition: all 0.2s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+        box-shadow: 0 2px #e0a800;
+        transform: translateY(2px);
+    }
+
+    .btn-warning:active {
+        background-color: #d39e00;
+        box-shadow: 0 2px #e0a800;
+        transform: translateY(4px);
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #c82333;
+        transition: all 0.2s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        box-shadow: 0 2px #c82333;
+        transform: translateY(2px);
+    }
+
+    .btn-danger:active {
+        background-color: #bd2130;
+        box-shadow: 0 2px #c82333;
+        transform: translateY(4px);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        box-shadow: 0 4px #218838;
+        transition: all 0.2s ease;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        box-shadow: 0 2px #218838;
+        transform: translateY(2px);
+    }
+
+    .btn-success:active {
+        background-color: #1e7e34;
+        box-shadow: 0 2px #218838;
+        transform: translateY(4px);
+    }
+</style>
+{% endblock %}

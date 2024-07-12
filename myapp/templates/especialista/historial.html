@@ -1,0 +1,24 @@
+{% extends "home/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Historial de Atenciones</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Comentario</th>
+                <th>Cliente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in historial %}
+            <tr>
+                <td>{{ item.fecha }}</td>
+                <td>{{ item.comentario }}</td>
+                <td>{{ item.cliente }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

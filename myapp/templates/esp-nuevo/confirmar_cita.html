@@ -1,0 +1,26 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Confirmar Cita{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Confirmar Cita</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Paciente</label>
+            <input type="text" class="form-control" value="{{ reserva.cliente.nombre }} {{ reserva.cliente.apellido_paterno }}" disabled>
+        </div>
+        <div class="form-group">
+            <label>Comentario del Paciente</label>
+            <textarea class="form-control" disabled>{{ reserva.comentario }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Estado</label>
+            <input type="text" class="form-control" value="{{ reserva.estado }}" disabled>
+        </div>
+        <input type="hidden" name="periodo" value="{{ periodo }}">
+        <button type="submit" class="btn btn-success">Confirmar</button>
+        <a href="{% url 'citas_totales' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

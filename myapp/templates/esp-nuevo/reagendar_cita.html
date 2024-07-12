@@ -1,0 +1,68 @@
+{% extends "home/base.html" %}
+
+{% block title %}Reagendar Cita{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Reagendar Cita</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="nueva_fecha">Nueva Fecha:</label>
+            <input type="date" id="nueva_fecha" name="nueva_fecha" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="nueva_hora_inicio">Nueva Hora de Inicio:</label>
+            <input type="time" id="nueva_hora_inicio" name="nueva_hora_inicio" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="nueva_hora_fin">Nueva Hora de Fin:</label>
+            <input type="time" id="nueva_hora_fin" name="nueva_hora_fin" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Reagendar Cita</button>
+        <a href="{% url 'detalle_jornada_laboral' reserva.horario_atencion.fecha %}" class="btn btn-secondary">Volver</a>
+    </form>
+</div>
+
+<style>
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+</style>
+{% endblock %}

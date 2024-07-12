@@ -1,0 +1,26 @@
+{% extends "home/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Lista de Espera / Notificación</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Cliente</th>
+                <th>Comentario</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.agendar_hora }}</td>
+                <td>{{ reserva.cliente }}</td>
+                <td>{{ reserva.comentario }}</td>
+                <td>{{ reserva.estado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

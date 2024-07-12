@@ -1,0 +1,16 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Buscar Pacientes{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Buscar Pacientes</h2>
+    <form method="get" action="{% url 'resultados_busqueda_pacientes' %}">
+        <div class="form-group">
+            <label for="buscar">Nombre o RUN del Paciente</label>
+            <input type="text" class="form-control" id="buscar" name="buscar" placeholder="Introduce el nombre o RUN del paciente">
+        </div>
+        <button type="submit" class="btn btn-custom">Buscar</button>
+    </form>
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+</div>
+{% endblock %}

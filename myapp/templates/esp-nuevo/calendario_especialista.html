@@ -1,0 +1,68 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Calendario del Especialista{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/medicologo.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Agenda Profesional</h1>
+        <p>Visualiza y gestiona tus horarios de atención</p>        
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div id="calendar"></div>
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+</div>
+
+<!-- Agregar FullCalendar -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css' rel='stylesheet' />
+<style>
+    .fc .fc-daygrid-day-number {
+        color: black;
+    }
+    .fc-daygrid-day {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .fc-day-today {
+        background-color: #f5f5f5 !important;
+    }
+    .fc-event {
+        background-color: #28a745 !important; /* Cambia el color del evento a verde */
+        color: white !important;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var today = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            validRange: {
+                start: today // Restringir la selección de fechas anteriores a hoy
+            },
+            events: {
+                url: "{% url 'obtener_dias_disponibles_especialista' %}",
+                failure: function() {
+                    alert('Hubo un error al obtener los eventos!');
+                }
+            },
+            dateClick: function(info) {
+                if (info.dateStr >= today) {
+                    window.location.href = "{% url 'detalle_jornada_laboral' 'fecha_placeholder' %}".replace('fecha_placeholder', info.dateStr);
+                }
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+{% endblock %}

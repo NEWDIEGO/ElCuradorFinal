@@ -1,0 +1,106 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Áreas de Servicio{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/portadacurador.webp' %}'); background-size: cover; background-position: center; height: 300px; display: flex; justify-content: center; align-items: center;">
+    <div class="hero-content text-center text-white" style="background-color: rgba(0, 0, 0, 0.744); padding: 20px; border-radius: 10px;">
+        <h1>Nuestras Áreas de Servicio</h1>
+        <p>Selecciona un área para reservar tu hora</p>
+    </div>
+</section>
+<nav style="display: flex; justify-content: center; margin: 20px 0;">
+    {% if user.is_authenticated %}
+        <a href="{% url 'mis_reservas' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+           onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+           onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+            Mis Reservas Activas
+        </a>
+        <a href="{% url 'historial_reservas' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+        onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+        onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+           Historial de Citas medicas
+        </a>
+        <a href="{% url 'historial_medico' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+           onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+           onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+            Historial Médico
+        </a>
+    {% else %}
+        <a href="{% url 'login' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+           onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+           onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+            Mis Reservas Activas
+        </a>
+        <a href="{% url 'login' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+        onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+        onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+           Historial de Citas medicas
+        </a>
+        <a href="{% url 'login' %}" style="color: #000000; background-color: #c0c0c0; padding: 10px 20px; margin: 0 10px; font-size: 1.2rem; border-radius: 5px; text-decoration: none; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);"
+           onmouseover="this.style.backgroundColor='#b0b0b0'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.2)';"
+           onmouseout="this.style.backgroundColor='#c0c0c0'; this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';">
+            Historial Médico
+        </a>
+    {% endif %}
+</nav>
+
+<div class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <img src="{% static 'images/psicologia_icon.webp' %}" class="card-img-top" alt="Psicología">
+                <div class="card-body">
+                    <h5 class="card-title">Psicología</h5>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'calendario' %}?area=Psicología" class="btn btn-primary">Reservar</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Reservar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <img src="{% static 'images/medicina_general_icon.webp' %}" class="card-img-top" alt="Medicina General">
+                <div class="card-body">
+                    <h5 class="card-title">Medicina General</h5>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'calendario' %}?area=medicina_general" class="btn btn-primary">Reservar</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Reservar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <img src="{% static 'images/dental_icon.webp' %}" class="card-img-top" alt="Dental">
+                <div class="card-body">
+                    <h5 class="card-title">Dental</h5>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'calendario' %}?area=dental" class="btn btn-primary">Reservar</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Reservar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <img src="{% static 'images/salud_mental_icon.webp' %}" class="card-img-top" alt="Salud Mental">
+                <div class="card-body">
+                    <h5 class="card-title">Salud Mental</h5>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'calendario' %}?area=salud_mental" class="btn btn-primary">Reservar</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Reservar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Confirmación de Reserva{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Reserva Confirmada</h2>
+    <p class="text-center">Tu reserva ha sido confirmada exitosamente.</p>
+    <div class="text-center mt-3">
+        <a href="{% url 'generate_pdf' reserva.id %}" class="btn btn-custom">Descargar PDF</a>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'areas' %}" class="btn btn-secondary">Volver a Áreas</a>
+    </div>
+</div>
+{% endblock %}

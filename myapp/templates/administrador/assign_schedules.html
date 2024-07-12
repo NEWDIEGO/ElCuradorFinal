@@ -1,0 +1,219 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Asignar Horarios{% endblock %}
+
+{% block content %}
+<div class="container mt-5 admin-page">
+    <h2 class="text-center">Asignar Horario</h2>
+    <div id="alert-container">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    <form method="post" action="#" id="schedule-form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="profesional" class="form-label">Profesional:</label>
+            <select class="form-select" id="profesional" name="especialista" required>
+                {% for especialista in especialistas %}
+                    <option value="{{ especialista.id }}">{{ especialista.nombre }} {{ especialista.apellido_paterno }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="hora_inicio" class="form-label">Hora Inicio:</label>
+            <input type="time" class="form-control" id="hora_inicio" name="hora_inicio" required>
+        </div>
+        <div class="mb-3">
+            <label for="hora_termino" class="form-label">Hora Término:</label>
+            <input type="time" class="form-control" id="hora_termino" name="hora_termino" required>
+        </div>
+        <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha:</label>
+            <input type="date" class="form-control" id="fecha" name="fecha" required>
+        </div>
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-shadow">Volver</a>
+            <button type="reset" class="btn btn-secondary btn-shadow">Limpiar</button>
+            <button type="submit" class="btn btn-custom btn-shadow">Confirmar</button>
+        </div>
+    </form>
+
+</div>
+<br>
+<br>
+<style>
+    .admin-page {
+        max-width: 600px;
+        margin: auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out, moveUp 0.5s ease-in-out;
+        transform-style: preserve-3d;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateZ(-100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateZ(0);
+        }
+    }
+
+    @keyframes moveUp {
+        from {
+            transform: translateY(50px);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    .btn-custom {
+        background-color: #FF4081;
+        border: none;
+        color: #fff;
+        transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+
+    .btn-custom:hover {
+        background-color: #E91E63;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-custom:active {
+        background-color: #C2185B;
+        transform: translateY(0);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+
+    .btn-shadow:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-select, .form-control {
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: #FF4081;
+        box-shadow: 0 0 10px rgba(255, 64, 129, 0.2);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .alert {
+        animation: slideIn 0.5s ease-in-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .btn-close {
+        background: transparent;
+        border: none;
+        font-size: 1.2em;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('schedule-form');
+    form.addEventListener('submit', event => {
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.innerHTML = '';
+
+        const fechaInput = document.getElementById('fecha').value;
+        const horaInicioInput = document.getElementById('hora_inicio').value;
+        const horaTerminoInput = document.getElementById('hora_termino').value;
+
+        const fecha = new Date(fechaInput);
+        const horaInicio = horaInicioInput.split(':').map(Number);
+        const horaTermino = horaTerminoInput.split(':').map(Number);
+
+        const ahora = new Date();
+        ahora.setHours(0, 0, 0, 0);
+
+        let errors = [];
+
+        if (fecha < ahora) {
+            errors.push('No puedes asignar horarios en fechas pasadas.');
+        }
+
+        if (horaInicio[0] < 6 || horaInicio[0] > 22) {
+            errors.push('La hora de inicio debe estar entre las 06:00 y las 22:00.');
+        }
+
+        if (horaTermino[0] < 6 || horaTermino[0] > 22) {
+            errors.push('La hora de término debe estar entre las 06:00 y las 22:00.');
+        }
+
+        if (horaInicioInput >= horaTerminoInput) {
+            errors.push('La hora de inicio debe ser anterior a la hora de término.');
+        }
+
+        // Validar duplicados
+        const schedules = JSON.parse('{{ schedules_json|escapejs }}');
+        const isDuplicated = schedules.some(schedule => {
+            const scheduleDate = new Date(schedule.fields.fecha);
+            const especialistaId = document.getElementById('profesional').value;
+            return scheduleDate.toDateString() === fecha.toDateString() &&
+                   schedule.fields.hora_inicio === horaInicioInput &&
+                   schedule.fields.hora_fin === horaTerminoInput &&
+                   schedule.fields.especialista === parseInt(especialistaId);
+        });
+        if (isDuplicated) {
+            errors.push('Otro especialista de la misma especialidad ya tiene un horario asignado en este intervalo.');
+        }
+
+        if (errors.length > 0) {
+            event.preventDefault();
+            errors.forEach(error => {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                alertDiv.role = 'alert';
+                alertDiv.innerHTML = `
+                    ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                alertContainer.appendChild(alertDiv);
+            });
+            window.scrollTo(0, 0);
+            setTimeout(() => {
+                document.querySelectorAll('.alert').forEach(alert => alert.remove());
+            }, 5000);
+        }
+    });
+});
+</script>

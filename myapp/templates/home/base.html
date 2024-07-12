@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Curador</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="{% static 'images/logoFinal.png' %}">
+    <style>
+        /* Estilos personalizados aquí */
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand img {
+            height: 70px;
+            width: auto;
+            max-width: 100%;
+        }
+        .nav-link {
+            color: #333;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #ff4081;
+        }
+        .btn-reserva {
+            background-color: #ff4081;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-reserva:hover {
+            background-color: #e0356e;
+            transform: translateY(-2px);
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0;
+        }
+        .footer h5 {
+            font-size: 1.6rem;
+            color: white;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #ddd;
+        }
+        .footer .social a {
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .footer .legal-links {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        .footer .legal-links li {
+            display: inline;
+            margin: 0 10px;
+        }
+        .map-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+        .gmap_canvas {
+            height: 100%;
+            width: 100%;
+        }
+        /* Estilos personalizados para el contenido principal */
+        main {
+            padding: 20px;
+            background: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn {
+            border-radius: 25px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .btn-primary {
+            background-color: #ff4081;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #e0356e;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Animaciones */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% if not user.is_authenticated %}{% url 'home' %}{% elif user.is_staff %}{% url 'admin_dashboard' %}{% elif user.cliente %}{% url 'home' %}{% elif user.especialista %}{% url 'esp_dashboard' %}{% else %}{% url 'home' %}{% endif %}">
+                <img src="{% static 'images/logoFinal.png' %}" alt="El Curador">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if not user.is_authenticated or user.cliente %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'nosotros' %}">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'psicologia' %}">Psicología</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'medicina_general' %}">Medicina General</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dental' %}">Dental</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'salud_mental' %}">Salud Mental</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-reserva" href="{% url 'areas' %}">Reserva de Hora</a>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Registrarse</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex flex-column min-vh-100">
+        <main class="flex-fill fade-in">
+            {% block content %}
+            <!-- Content goes here -->
+            {% endblock %}
+        </main>
+        <footer id="main-footer" class="bg-dark text-white text-center py-4">
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-lg-12 d-flex justify-content-center align-items-center">
+                        <img src="{% static 'images/logoFinal.png' %}" alt="El Curador" style="max-height: 100px; max-width: 100%;">
+                    </div>
+                </div>
+        
+                <div class="row footer-list text-left">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <h5 class="font-weight-bold text-white">Psicología</h5>
+                        <img src="{% static 'images/psicologia_icon.webp' %}" class="img-fluid rounded shadow-lg" alt="Psicología Icono" style="max-height: 100px; max-width: 100%;">
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <h5 class="font-weight-bold text-white">Medicina General</h5>
+                        <img src="{% static 'images/medicina_general_icon.webp' %}" class="img-fluid rounded shadow-lg" alt="Medicina General Icono" style="max-height: 100px; max-width: 100%;">
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <h5 class="font-weight-bold text-white">Dental</h5>
+                        <img src="{% static 'images/dental_icon.webp' %}" class="img-fluid rounded shadow-lg" alt="Dental Icono" style="max-height: 100px; max-width: 100%;">
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <h5 class="font-weight-bold text-white">Salud Mental</h5>
+                        <img src="{% static 'images/salud_mental_icon.webp' %}" class="img-fluid rounded shadow-lg" alt="Salud Mental Icono" style="max-height: 100px; max-width: 100%;">
+                    </div>
+                </div>
+        
+                <div class="row mt-4">
+                    <div class="col-lg-12">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.361004011912!2d-70.59527148480141!3d-33.609393480730384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d26ed92a4531%3A0x91d610a9c7526a30!2sAv.%20Concha%20y%20Toro%2026%2C%20Puente%20Alto%2C%20Santiago%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1625841234591!5m2!1ses-419!2scl" width="600" height="450" style="border:0; width: 100%; height: 200px;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+        
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="social-icons mb-3">
+                            <a href="#" class="text-white mr-3"><i class="fab fa-facebook fa-2x"></i></a>
+                            <a href="#" class="text-white mr-3"><i class="fab fa-twitter fa-2x"></i></a>
+                            <a href="#" class="text-white mr-3"><i class="fab fa-instagram fa-2x"></i></a>
+                            <a href="#" class="text-white mr-3"><i class="fab fa-linkedin fa-2x"></i></a>
+                        </div>
+                        <p>&copy; 2024 Clínica Médica. Todos los derechos reservados. <a href="#" class="text-white">Políticas de Privacidad</a> | <a href="#" class="text-white">Contáctanos</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Agrega el siguiente script al final del documento para que funcione FontAwesome -->
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

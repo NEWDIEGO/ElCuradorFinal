@@ -1,0 +1,53 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% load static %}
+<div class="container my-5">
+    <div class="row mb-4 text-center">
+        <div class="col">
+            <h1 class="display-4 text-dark wow bounceInDown">Psicología</h1>
+            <p class="lead text-muted wow bounceInDown">Descubre cómo podemos ayudarte a mejorar tu bienestar mental.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow slideInLeft">
+        <div class="col-md-6">
+            <img src="{% static 'images/terapia_individual.jpg' %}" class="img-fluid rounded shadow-lg" alt="Terapia Individual" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-success">Terapia Individual</h2>
+            <p class="text-muted">Ofrecemos sesiones de terapia individual para tratar una amplia gama de problemas de salud mental, desde la depresión y la ansiedad hasta el estrés y los problemas de relación.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow slideInRight">
+        <div class="col-md-6 order-md-2">
+            <img src="{% static 'images/terapia_pareja.webp' %}" class="img-fluid rounded shadow-lg" alt="Terapia de Pareja" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h2 class="text-success">Terapia de Pareja</h2>
+            <p class="text-muted">Ayudamos a las parejas a mejorar su comunicación, resolver conflictos y fortalecer su relación a través de sesiones de terapia de pareja.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow slideInLeft">
+        <div class="col-md-6">
+            <img src="{% static 'images/terapia_familiar.jpg' %}" class="img-fluid rounded shadow-lg" alt="Terapia Familiar" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-success">Terapia Familiar</h2>
+            <p class="text-muted">Nuestra terapia familiar está diseñada para ayudar a las familias a mejorar sus dinámicas y resolver problemas juntos.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow slideInRight">
+        <div class="col-md-6 order-md-2">
+            <img src="{% static 'images/evaluaciones_psicologicas.jpg' %}" class="img-fluid rounded shadow-lg" alt="Evaluaciones Psicológicas" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6 order-md-1">
+            <h2 class="text-success">Evaluaciones Psicológicas</h2>
+            <p class="text-muted">Realizamos evaluaciones psicológicas completas para diagnosticar y entender mejor las necesidades de nuestros pacientes.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

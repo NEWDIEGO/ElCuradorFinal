@@ -1,0 +1,74 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Detalles de Horarios{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Detalles de Horarios para {{ periodo|capfirst }}</h2>
+    
+    <!-- Formulario para filtrar por fecha -->
+    <form method="get" class="mb-4">
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label for="start_date" class="col-form-label">Fecha Inicial:</label>
+                <input type="date" class="form-control mb-2" id="start_date" name="start_date" value="{{ request.GET.start_date }}">
+            </div>
+            <div class="col-auto">
+                <label for="end_date" class="col-form-label">Fecha Final:</label>
+                <input type="date" class="form-control mb-2" id="end_date" name="end_date" value="{{ request.GET.end_date }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Filtrar</button>
+            </div>
+        </div>
+    </form>
+    
+    <div class="accordion" id="horariosAccordion">
+        {% for horario in horarios %}
+            {% for reserva in horario.reserva_set.all %}
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header" id="heading{{ forloop.counter0 }}" style="background-color: #f8f9fa;">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter0 }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter0 }}">
+                                <strong>{{ horario.fecha }} - {{ horario.hora_inicio }} - {{ horario.hora_fin }}</strong> 
+                                {% if reserva.estado == 'asignado' %}
+                                    <span class="badge badge-warning">Pendiente</span>
+                                {% elif reserva.estado == 'solucionado' or reserva.estado == 'cerrado' %}
+                                    <span class="badge badge-danger">Bloqueado</span>
+                                {% else %}
+                                    <span class="badge badge-success">Confirmado</span>
+                                {% endif %}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse{{ forloop.counter0 }}" class="collapse" aria-labelledby="heading{{ forloop.counter0 }}" data-parent="#horariosAccordion">
+                        <div class="card-body" style="background-color: #e9ecef;">
+                            <p><strong>Fecha:</strong> {{ horario.fecha }}</p>
+                            <p><strong>Hora Inicio:</strong> {{ horario.hora_inicio }}</p>
+                            <p><strong>Hora Fin:</strong> {{ horario.hora_fin }}</p>
+                            <p><strong>Duración de la Cita:</strong> {{ horario.duracion_cita }} minutos</p>
+                            <p><strong>Paciente:</strong> {{ reserva.cliente.nombre }} {{ reserva.cliente.apellido_paterno }}</p>
+                            <p><strong>Correo:</strong> {{ reserva.cliente.correo }}</p>
+                            <p><strong>Teléfono:</strong> {{ reserva.cliente.telefono }}</p>
+                            <p><strong>Estado:</strong> {{ reserva.estado }}</p>
+                            <p><strong>Comentario:</strong> {{ reserva.comentario }}</p>
+                            <p><strong>Especialista:</strong> {{ reserva.especialista.nombre }}</p>
+                            <p><strong>Área:</strong> {{ reserva.area|replace:"_"," " }}</p>
+                            <p><strong>Costo:</strong> ${{ horario.costo }}</p>
+                            {% if reserva.estado == 'asignado' %}
+                                <a href="{% url 'confirmar_cita' reserva.id %}" class="btn btn-primary btn-sm">Confirmar Cita</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <a href="{% url 'esp_dashboard' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+</div>
+
+<!-- Agregar los scripts de Bootstrap -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

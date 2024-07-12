@@ -1,0 +1,13 @@
+{% extends "home/base.html" %}
+{% block title %}Confirmar Reagendamiento{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Confirmar Reagendamiento de Cita</h2>
+    <p>Por favor confirme si desea reagendar su cita a la nueva fecha y hora propuesta.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Confirmar</button>
+        <a href="{% url 'mis_reservas' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

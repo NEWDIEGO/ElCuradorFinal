@@ -1,0 +1,53 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% load static %}
+<div class="container my-5">
+    <div class="row mb-4 text-center">
+        <div class="col">
+            <h1 class="display-4 text-dark wow fadeInDown">Beneficios Dentales</h1>
+            <p class="lead text-muted wow fadeInDown">Descubre nuestros beneficios dentales y cómo podemos ayudarte a mantener una sonrisa saludable.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInUp">
+        <div class="col-md-6">
+            <img src="{% static 'images/consultas_dentales.jpg' %}" class="img-fluid rounded shadow" alt="Consultas Dentales" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-danger">Consultas Dentales</h2>
+            <p class="text-muted">Realizamos consultas dentales integrales para evaluar y tratar tus necesidades de salud bucal. Nuestro equipo de dentistas altamente capacitados utiliza tecnología avanzada para proporcionarte la mejor atención posible.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInUp">
+        <div class="col-md-6">
+            <img src="{% static 'images/tratamientos_dentales.avif' %}" class="img-fluid rounded shadow" alt="Tratamientos Dentales" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-danger">Tratamientos Dentales</h2>
+            <p class="text-muted">Ofrecemos una variedad de tratamientos dentales, desde limpiezas y empastes hasta procedimientos avanzados como endodoncias, coronas y puentes, utilizando los mejores materiales y técnicas para asegurar tu salud bucal.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInUp">
+        <div class="col-md-6">
+            <img src="{% static 'images/ortodoncia.jpg' %}" class="img-fluid rounded shadow" alt="Ortodoncia" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-danger">Ortodoncia</h2>
+            <p class="text-muted">Nuestros servicios de ortodoncia están diseñados para alinear tus dientes y mejorar tu mordida, utilizando los últimos avances en tecnología dental. Ofrecemos una variedad de opciones de tratamiento, incluyendo aparatos tradicionales y alineadores transparentes.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5 align-items-center wow fadeInUp">
+        <div class="col-md-6">
+            <img src="{% static 'images/implantes.jpg' %}" class="img-fluid rounded shadow" alt="Implantes Dentales" style="width: 100%; height: auto;">
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-danger">Implantes</h2>
+            <p class="text-muted">Ofrecemos implantes dentales de alta calidad para reemplazar dientes perdidos. Los implantes proporcionan una base sólida para dientes artificiales fijos o removibles, que se asemejan a tus dientes naturales y restauran la funcionalidad y la estética de tu sonrisa, permitiéndote comer, hablar y sonreír con confianza.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

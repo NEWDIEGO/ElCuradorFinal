@@ -1,0 +1,133 @@
+{% extends "home/base.html" %}
+{% block title %}Horarios de la Semana{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 admin-page">
+    <h2 class="text-center">Horarios de la Semana</h2>
+    
+    {% if messages %}
+        <div class="alert alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+    
+    <form method="get" class="mb-3">
+        <div class="form-row">
+            <div class="col">
+                <select name="mes" class="form-control">
+                    {% for mes_num, mes_nombre in meses %}
+                        <option value="{{ mes_num }}" {% if mes_num == mes %}selected{% endif %}>
+                            {{ mes_nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <select name="semana" class="form-control">
+                    {% for i in semanas %}
+                        <option value="{{ i }}" {% if i == semana %}selected{% endif %}>Semana {{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hora, dias in calendario.items %}
+                <tr>
+                    <td>{{ hora }}:00</td>
+                    {% for dia in dias.values %}
+                        <td>
+                            {% for info in dia %}
+                                <b>Especialista:</b> {{ info.especialista }}<br>
+                                <b>Fecha:</b> {{ info.fecha }}<br>
+                                <b>Hora Inicio:</b> {{ info.hora_inicio }}<br>
+                                <b>Hora Fin:</b> {{ info.hora_fin }}<br>
+                                <b>Duración:</b> {{ info.duracion }} minutos<br>
+                                <b>Día:</b> {{ info.dia_semana }}<br>
+                                <br>
+                                {% if info.activo %}
+                                    <a href="{% url 'anular_horario' info.id %}?mes={{ mes }}&semana={{ semana }}" class="btn btn-danger">Anular</a>
+                                {% else %}
+                                    <a href="{% url 'activar_horario' info.id %}?mes={{ mes }}&semana={{ semana }}" class="btn btn-success">Activar</a>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'especialista_funciones' %}" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
+<!-- Integracion de nuevo calendario -->
+
+    <style>
+        #calendar {
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+    </style>
+    
+    <div class="container mt-5 admin-page" id="form2">
+        <h2 class="text-center">Horarios de la Semana</h2>
+
+        <div id="calendar"></div>
+
+        <a href="{% url 'especialista_funciones' %}" class="btn btn-secondary mt-3">Volver</a>
+    </div>
+
+    <script>
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'es',
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: [
+
+                {% for hora, dias in calendario.items %}
+                    {% for dia in dias.values %}
+                        {% for info in dia %}
+
+                        {
+                            title: '{{ info.especialista }}',
+                            start: '{{ info.fecha }}T{{ info.hora_inicio }}',
+                            end: '{{ info.fecha }}T{{ info.hora_fin }}'
+                        },
+
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+
+                ]
+            });
+            calendar.render();
+        });
+    </script>
+
+{% endblock %}

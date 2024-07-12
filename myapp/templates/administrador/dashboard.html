@@ -1,0 +1,346 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Panel de Administrador{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h2>Panel de Administrador</h2>
+            <p class="lead text-muted">Gestiona las funciones y los datos de la clínica desde esta interfaz central.</p>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-center">Gestión de Usuarios</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Crear Usuario</h5>
+                    <img src="{% static 'images/crear_usuario.png' %}" alt="Crear Usuario" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Crear nuevos usuarios en el sistema, incluidos administradores y especialistas.</p>
+                    <a href="{% url 'admin_create_user' %}" class="btn btn-custom">Ir a Crear Usuario</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Modificar Usuario</h5>
+                    <img src="{% static 'images/modificar_usuario.png' %}" alt="Modificar Usuario" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Modificar los detalles de los usuarios existentes en el sistema.</p>
+                    <a href="{% url 'admin_modify_user' %}" class="btn btn-custom">Ir a Modificar Usuario</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-center">Gestión de Horarios</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Asignar Horarios</h5>
+                    <img src="{% static 'images/asignar_horario.png' %}" alt="Asignar Horarios" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Asignar y gestionar los horarios de los especialistas.</p>
+                    <a href="{% url 'admin_assign_schedules' %}" class="btn btn-custom">Ir a Asignar Horarios</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Ver Informes de Horarios</h5>
+                    <img src="{% static 'images/informe.png' %}" alt="Ver Informes de horarios" class="img-fluid my-3" style="height: 50px;">
+                    <p class="card-text">Ver y generar informes sobre el registro de horarios.</p>
+                    <a href="{% url 'admin_view_reports' %}" class="btn btn-custom">Ir a Ver Reportes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-center">Estadísticas</h3>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Usuarios por Tipo</h5>
+                    <br>
+                    <div class="text-center">
+                        <span style="background-color: #FF6384; padding: 5px; border-radius: 5px; color: #fff;">Administradores</span>
+                        <span style="background-color: #36A2EB; padding: 5px; border-radius: 5px; color: #fff;">Especialistas</span>
+                        <span style="background-color: #FFCE56; padding: 5px; border-radius: 5px; color: #fff;">Pacientes</span>
+                    </div>
+                    <br>
+                    <div style="height: 300px;">
+                        <canvas id="usuariosPorTipo"></canvas>
+                    </div>
+                    <div id="usuariosPorTipoData" class="chart-data text-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Citas por Especialidad</h5>
+                    <br>
+                    <div class="text-center">
+                        <span style="background-color: #36A2EB; padding: 5px; border-radius: 5px; color: #fff;">Medicina General</span>
+                        <span style="background-color: #FF6384; padding: 5px; border-radius: 5px; color: #fff;">Dental</span>
+                        <span style="background-color: #FFCE56; padding: 5px; border-radius: 5px; color: #fff;">Psicología</span>
+                        <span style="background-color: #4BC0C0; padding: 5px; border-radius: 5px; color: #fff;">Salud Mental</span>
+                    </div>
+                    <br>
+                    <div style="height: 300px;">
+                        <canvas id="citasPorEspecialidad"></canvas>
+                    </div>
+                    <div id="citasPorEspecialidadData" class="chart-data text-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Reservas por Estado</h5>
+                    <br>
+                    <div class="text-center">
+                        <span style="background-color: #FF6384; padding: 5px; border-radius: 5px; color: #fff;">Asignadas</span>
+                        <span style="background-color: #36A2EB; padding: 5px; border-radius: 5px; color: #fff;">Confirmadas</span>
+                        <span style="background-color: #FFCE56; padding: 5px; border-radius: 5px; color: #fff;">Canceladas</span>
+                        <span style="background-color: #4BC0C0; padding: 5px; border-radius: 5px; color: #fff;">Solucionadas</span>
+                    </div>
+                    <br>
+                    <div style="height: 300px;">
+                        <canvas id="reservasPorEstado"></canvas>
+                    </div>
+                    <div id="reservasPorEstadoData" class="chart-data text-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Especialistas por Especialidad</h5>
+                    <br>
+                    <div class="text-center">
+                        <span style="background-color: #FF6384; padding: 5px; border-radius: 5px; color: #fff;">Dental</span>
+                        <span style="background-color: #36A2EB; padding: 5px; border-radius: 5px; color: #fff;">Medicina General</span>
+                        <span style="background-color: #FFCE56; padding: 5px; border-radius: 5px; color: #fff;">Psicología</span>
+                        <span style="background-color: #4BC0C0; padding: 5px; border-radius: 5px; color: #fff;">Salud Mental</span>
+                    </div>
+                    <br>
+                    <div style="height: 300px;">
+                        <canvas id="especialistasPorEspecialidad"></canvas>
+                    </div>
+                    <div id="especialistasPorEspecialidadData" class="chart-data text-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+    .card-title {
+        color: #343a40;
+        font-weight: bold;
+    }
+    .btn-custom {
+        background-color: #FF4081;
+        border: none;
+        color: #fff;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    .btn-custom:hover {
+        background-color: #E91E63;
+        transform: scale(1.05);
+    }
+    .btn-custom:active {
+        background-color: #C2185B;
+    }
+    .card-text {
+        color: #6c757d;
+    }
+    .chart-data {
+        background-color: silver;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .text-center span {
+        margin: 5px;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const colors = {
+        'Dental': '#FF6384',
+        'Medicina General': '#36A2EB',
+        'Psicología': '#FFCE56',
+        'Salud Mental': '#4BC0C0'
+    };
+
+    // Gráfico de Usuarios por Tipo
+    var ctx1 = document.getElementById('usuariosPorTipo').getContext('2d');
+    var usuariosPorTipo = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: ['Administradores', 'Especialistas', 'Pacientes'],
+            datasets: [{
+                label: 'Usuarios por Tipo',
+                data: [{{ admin_count }}, {{ specialist_count }}, {{ patient_count }}],
+                backgroundColor: [colors['Dental'], colors['Medicina General'], colors['Psicología']],
+                borderColor: [colors['Dental'], colors['Medicina General'], colors['Psicología']],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('usuariosPorTipoData').innerHTML = `
+        <p>Administradores: {{ admin_count }}</p>
+        <p>Especialistas: {{ specialist_count }}</p>
+        <p>Pacientes: {{ patient_count }}</p>
+    `;
+
+    // Gráfico de Citas por Especialidad
+    var ctx2 = document.getElementById('citasPorEspecialidad').getContext('2d');
+    var citasPorEspecialidad = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: [{% for especialidad in especialidades %}'{{ especialidad.nombre }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Citas por Especialidad',
+                data: [{% for item in citas_por_especialidad %}{{ item.count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                backgroundColor: [{% for item in citas_por_especialidad %}colors['{{ item.horario_atencion__especialista__especialidad__nombre }}']{% if not forloop.last %}, {% endif %}{% endfor %}],
+                borderColor: [{% for item in citas_por_especialidad %}colors['{{ item.horario_atencion__especialista__especialidad__nombre }}']{% if not forloop.last %}, {% endif %}{% endfor %}],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('citasPorEspecialidadData').innerHTML = `
+        {% for item in citas_por_especialidad %}
+            <p>{{ item.horario_atencion__especialista__especialidad__nombre }}: {{ item.count }}</p>
+        {% endfor %}
+    `;
+
+    // Gráfico de Reservas por Estado
+    var ctx3 = document.getElementById('reservasPorEstado').getContext('2d');
+    var reservasPorEstado = new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: ['Asignadas', 'Confirmadas', 'Canceladas', 'Solucionadas'],
+            datasets: [{
+                label: 'Reservas por Estado',
+                data: [{{ reservas_asignadas }}, {{ reservas_confirmadas }}, {{ reservas_canceladas }}, {{ reservas_solucionadas }}],
+                backgroundColor: [colors['Dental'], colors['Medicina General'], colors['Psicología'], colors['Salud Mental']],
+                borderColor: [colors['Dental'], colors['Medicina General'], colors['Psicología'], colors['Salud Mental']],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('reservasPorEstadoData').innerHTML = `
+        <p>Asignadas: {{ reservas_asignadas }}</p>
+        <p>Confirmadas: {{ reservas_confirmadas }}</p>
+        <p>Canceladas: {{ reservas_canceladas }}</p>
+        <p>Solucionadas: {{ reservas_solucionadas }}</p>
+    `;
+
+    // Gráfico de Especialistas por Especialidad
+    var ctx4 = document.getElementById('especialistasPorEspecialidad').getContext('2d');
+    var especialistasPorEspecialidad = new Chart(ctx4, {
+        type: 'bar',
+        data: {
+            labels: [{% for item in especialistas_por_especialidad %}'{{ item.especialidad__nombre }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            datasets: [{
+                label: 'Especialistas por Especialidad',
+                data: [{% for item in especialistas_por_especialidad %}{{ item.count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                backgroundColor: [{% for item in especialistas_por_especialidad %}colors['{{ item.especialidad__nombre }}']{% if not forloop.last %}, {% endif %}{% endfor %}],
+                borderColor: [{% for item in especialistas_por_especialidad %}colors['{{ item.especialidad__nombre }}']{% if not forloop.last %}, {% endif %}{% endfor %}],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Mostrar los datos al lado del gráfico
+    document.getElementById('especialistasPorEspecialidadData').innerHTML = `
+        {% for item in especialistas_por_especialidad %}
+            <p>{{ item.especialidad__nombre }}: {{ item.count }}</p>
+        {% endfor %}
+    `;
+});
+</script>
+{% endblock %}

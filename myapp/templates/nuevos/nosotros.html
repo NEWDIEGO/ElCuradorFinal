@@ -1,0 +1,131 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% load static %}
+<div class="container my-5">
+    <div class="row mb-4 text-center">
+        <div class="col">
+            <h1 class="display-4 text-dark">Sobre Nosotros</h1>
+            <p class="lead text-muted">Conoce más sobre El Curador y nuestro compromiso con tu salud.</p>
+        </div>
+    </div>
+
+    <!-- Misión y Visión -->
+    <div class="row mb-5 align-items-center wow fadeInUp">
+        <div class="col-md-6">
+            <h2 class="text-success">Misión y Visión</h2>
+            <p class="text-muted">Nuestra misión es proporcionar atención médica de alta calidad, accesible y personalizada para cada uno de nuestros pacientes. Nos esforzamos por ser líderes en el cuidado de la salud a través de la innovación y la excelencia clínica.</p>
+            <p class="text-muted">Nuestra visión es ser reconocidos como la clínica de referencia en nuestra comunidad, conocida por nuestro compromiso con la salud y el bienestar de nuestros pacientes.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/misionvision.png' %}" class="img-fluid shadow rounded" alt="Misión y Visión">
+        </div>
+    </div>
+
+    <!-- Testimonios de Pacientes -->
+    <div class="row mb-5 text-center wow fadeInUp">
+        <div class="col">
+            <h2 class="text-dark">Testimonios de Pacientes</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 wow fadeInUp">
+            <div class="card shadow-sm mb-4">
+                <img src="{% static 'images/paciente1.webp' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Paciente 1" style="width: 100px; height: 100px;">
+                <div class="card-body">
+                    <p class="card-text">"El Curador me ha brindado una atención excelente. Estoy muy agradecido por su dedicación y profesionalismo."</p>
+                    <h5 class="text-success">- Juan Pérez</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="card shadow-sm mb-4">
+                <img src="{% static 'images/paciente2.webp' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Paciente 2" style="width: 100px; height: 100px;">
+                <div class="card-body">
+                    <p class="card-text">"Gracias a El Curador, mi salud ha mejorado significativamente. Recomiendo sus servicios a todos mis conocidos."</p>
+                    <h5 class="text-success">- María López</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 wow fadeInUp" data-wow-delay="0.4s">
+            <div class="card shadow-sm mb-4">
+                <img src="{% static 'images/paciente3.jpg' %}" class="card-img-top rounded-circle mx-auto mt-3" alt="Paciente 3" style="width: 100px; height: 100px;">
+                <div class="card-body">
+                    <p class="card-text">"El equipo de El Curador es excepcional. Su profesionalismo y dedicación son incomparables."</p>
+                    <h5 class="text-success">- Carlos Martínez</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Galería de Fotos -->
+    <div class="row mb-5 text-center wow fadeInUp">
+        <div class="col">
+            <h2 class="text-dark">Galería de Fotos</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{% static 'images/galeria1.jpg' %}" class="img-fluid rounded shadow mb-3" alt="Foto 1">
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/galeria2.jpg' %}" class="img-fluid rounded shadow mb-3" alt="Foto 2">
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/galeria3.jpg' %}" class="img-fluid rounded shadow mb-3" alt="Foto 3">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conoce a Nuestro Equipo -->
+    <div class="row mb-5 text-center wow fadeInUp">
+        <div class="col">
+            <h2 class="text-dark">Conoce a Nuestro Equipo</h2>
+            <p class="text-muted">Profesionales dedicados a tu salud</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 text-center mb-4 wow zoomIn">
+            <img src="{% static 'images/medico_general.jpg' %}" class="rounded-circle img-fluid mb-3 shadow" alt="Dr. Juan Pérez" style="width: 150px; height: 150px;">
+            <h5 class="text-success">Dr. Juan Pérez</h5>
+            <p class="text-muted">Médico General</p>
+        </div>
+        <div class="col-md-4 text-center mb-4 wow zoomIn" data-wow-delay="0.2s">
+            <img src="{% static 'images/psiquiatra.jpg' %}" class="rounded-circle img-fluid mb-3 shadow" alt="Dra. María López" style="width: 150px; height: 150px;">
+            <h5 class="text-success">Dra. María López</h5>
+            <p class="text-muted">Psiquiatra</p>
+        </div>
+        <div class="col-md-4 text-center mb-4 wow zoomIn" data-wow-delay="0.4s">
+            <img src="{% static 'images/odontologo.jpg' %}" class="rounded-circle img-fluid mb-3 shadow" alt="Dr. Carlos Martínez" style="width: 150px; height: 150px;">
+            <h5 class="text-success">Dr. Carlos Martínez</h5>
+            <p class="text-muted">Odontólogo</p>
+        </div>
+    </div>
+
+    <!-- Contacto -->
+    <div class="row mt-5 text-center wow fadeInUp">
+        <div class="col">
+            <h2 class="text-dark">Contáctanos</h2>
+            <p class="text-muted">Estamos aquí para ayudarte. No dudes en ponerte en contacto con nosotros para cualquier consulta o para agendar una cita.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 wow fadeInLeft">
+            <h3 class="text-success">Dirección</h3>
+            <p class="text-muted">Av. Concha y Toro 26, Puente Alto, Santiago, Región Metropolitana</p>
+            <h3 class="text-success">Teléfono</h3>
+            <p class="text-muted">+56 2 1234 5678</p>
+            <h3 class="text-success">Correo electrónico</h3>
+            <p class="text-muted">curador778@gmail.com</p>
+        </div>
+        <div class="col-md-6 wow fadeInRight">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.361004011912!2d-70.59527148480141!3d-33.609393480730384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d26ed92a4531%3A0x91d610a9c7526a30!2sAv.%20Concha%20y%20Toro%2026%2C%20Puente%20Alto%2C%20Santiago%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses-419!2scl!4v1625841234591!5m2!1ses-419!2scl" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Include WOW.js library for animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script>
+    new WOW().init();
+</script>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Reservar Hora{% endblock %}
+
+{% block content %}
+<div class="container mt-5 admin-page" style="max-width: 800px;">
+    <h2 class="text-center">Reservar Hora</h2>
+    <form method="get" action="{% url 'reserva' %}" class="mb-3">
+        <div class="form-row">
+            <div class="col">
+                <select name="mes" class="form-control">
+                    {% for mes_num, mes_nombre in meses %}
+                        <option value="{{ mes_num }}" {% if mes_num == mes %}selected{% endif %}>
+                            {{ mes_nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <select name="semana" class="form-control">
+                    {% for i in semanas %}
+                        <option value="{{ i }}" {% if i == semana %}selected{% endif %}>Semana {{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <select name="especialidad_id" id="especialidad" class="form-control">
+                    <option value="">Seleccione una especialidad</option>
+                    {% for especialidad in especialidades %}
+                        <option value="{{ especialidad.id }}" {% if especialidad.id|stringformat:"s" == especialidad_id %}selected{% endif %}>
+                            {{ especialidad.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <select name="especialista_id" id="especialista" class="form-control">
+                    <option value="">Seleccione un especialista</option>
+                    {% for especialista in especialistas %}
+                        <option value="{{ especialista.id }}" {% if especialista.id|stringformat:"s" == especialista_id %}selected{% endif %}>
+                            {{ especialista.nombre }} {{ especialista.apellido_paterno }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hora, dias in calendario.items %}
+                <tr>
+                    <td>{{ hora }}:00</td>
+                    {% for dia in dias.values %}
+                        <td>
+                            {% for info in dia %}
+                                <b>Especialista:</b> {{ info.especialista }}<br>
+                                <b>Fecha:</b> {{ info.fecha }}<br>
+                                <b>Hora Inicio:</b> {{ info.hora_inicio }}<br>
+                                <b>Hora Fin:</b> {{ info.hora_fin }}<br>
+                                <b>Duración:</b> {{ info.duracion }} minutos<br>
+                                <b>Día:</b> {{ info.dia_semana }}<br>
+                                {% if info.reservado %}
+                                    <button class="btn btn-secondary" disabled>Reservado</button>
+                                {% else %}
+                                    <button class="btn btn-primary" onclick="agendarHora({{ info.id }})">Agendar</button>
+                                {% endif %}
+                                <br>
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button id="finalizarReservaBtn" class="btn btn-success mt-3" disabled>Reserva Finalizada</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
+<!-- Modal para agregar comentario -->
+<div class="modal fade" id="comentarioModal" tabindex="-1" aria-labelledby="comentarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="comentarioModalLabel">Agregar Comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="comentarioForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="horario_id" name="horario_id">
+                    <div class="mb-3">
+                        <label for="comentario" class="form-label">Comentario:</label>
+                        <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="guardarComentarioBtn" class="btn btn-primary" onclick="submitComentario()" disabled>Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const especialidadSelect = document.getElementById('especialidad');
+        const especialistaSelect = document.getElementById('especialista');
+        const finalizarReservaBtn = document.getElementById('finalizarReservaBtn');
+        const guardarComentarioBtn = document.getElementById('guardarComentarioBtn');
+        const comentarioInput = document.getElementById('comentario');
+        let selectedReserva = null;
+
+        especialidadSelect.addEventListener('change', function () {
+            const especialidadId = this.value;
+            especialistaSelect.innerHTML = '<option value="">Seleccione un especialista</option>';
+            if (especialidadId) {
+                fetch(`/cargar_especialistas/?especialidad_id=${especialidadId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(especialista => {
+                            especialistaSelect.innerHTML += `<option value="${especialista.id}">${especialista.nombre} ${especialista.apellido_paterno}</option>`;
+                        });
+                    });
+            }
+        });
+
+        comentarioInput.addEventListener('input', function () {
+            guardarComentarioBtn.disabled = comentarioInput.value.trim() === "";
+        });
+
+        function agendarHora(horarioId) {
+            const comentarioForm = document.getElementById('comentarioForm');
+            comentarioForm.reset();
+            document.getElementById('horario_id').value = horarioId;
+            selectedReserva = horarioId;
+            finalizarReservaBtn.disabled = true;
+            guardarComentarioBtn.disabled = true;
+            const comentarioModal = new bootstrap.Modal(document.getElementById('comentarioModal'));
+            comentarioModal.show();
+        }
+
+        function submitComentario() {
+            const comentarioForm = document.getElementById('comentarioForm');
+            const formData = new FormData(comentarioForm);
+            fetch('/agendar_hora/', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        const comentarioModal = bootstrap.Modal.getInstance(document.getElementById('comentarioModal'));
+                        comentarioModal.hide();
+                        finalizarReservaBtn.disabled = false;
+                    } else {
+                        alert(data.message);
+                    }
+                });
+        }
+
+        finalizarReservaBtn.addEventListener('click', function () {
+            if (selectedReserva) {
+                window.location.href = '{% url 'pago_qr' %}';
+            }
+        });
+
+        window.agendarHora = agendarHora;
+        window.submitComentario = submitComentario;
+    });
+</script>
+{% endblock %}

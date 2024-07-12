@@ -1,0 +1,200 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Ver Informes{% endblock %}
+
+{% block content %}
+<div class="container mt-5 admin-page">
+    <h2 class="text-center">Informe de horarios registrados</h2>
+    <br>
+    <form method="get" action="">
+        <div class="row mb-3">
+            <div class="col">
+                <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
+                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ fecha_inicio }}">
+            </div>
+            <div class="col">
+                <label for="fecha_fin" class="form-label">Fecha Fin</label>
+                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="{{ fecha_fin }}">
+            </div>
+            <div class="col">
+                <label for="tecnico" class="form-label">Nombre del Técnico</label>
+                <select class="form-select" id="tecnico" name="tecnico">
+                    <option value="Todos">Todos</option>
+                    {% for tecnico in tecnicos %}
+                        <option value="{{ tecnico.id }}" {% if tecnico.id|stringformat:"s" == tecnico_seleccionado %}selected{% endif %}>{{ tecnico.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label for="area" class="form-label">Área</label>
+                <select class="form-select" id="area" name="area" onchange="this.form.submit()">
+                    <option value="Todos">Todos</option>
+                    {% for area in especialidades %}
+                        <option value="{{ area.nombre }}" {% if area.nombre == area_seleccionada %}selected{% endif %}>{{ area.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-custom">Filtrar</button>
+        </div>
+    </form>
+
+    <h3 class="mt-5">Resumen</h3>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card custom-card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total Registros de Horarios</h5>
+                    <p class="card-text">{{ total_registros }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card custom-card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Usuarios Registrados</h5>
+                    <p class="card-text">{{ total_usuarios }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mt-5">Registros por Especialistas</h3>
+    <table class="table specialist-table custom-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre Completo</th>
+                <th>Correo</th>
+                <th>Área</th>
+                <th>Total Registros de Horarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in registros_por_especialistas %}
+                <tr>
+                    <td>{{ item.especialista__usuario__username }}</td>
+                    <td>{{ item.especialista__nombre }} {{ item.especialista__apellido_paterno }} {{ item.especialista__apellido_materno }}</td>
+                    <td>{{ item.especialista__correo }}</td>
+                    <td>{{ item.especialista__especialidad__nombre }}</td>
+                    <td>{{ item.total_registros }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary custom-btn mt-3">Volver</a>
+</div>
+<br>
+<br>
+<style>
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    .card.custom-card {
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        box-shadow: 6px 6px 12px #cfcfcf, -6px -6px 12px #ffffff;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card.custom-card:hover {
+        transform: scale(1.05);
+        box-shadow: 12px 12px 24px #cfcfcf, -12px -12px 24px #ffffff;
+    }
+
+    .btn-custom {
+        background-color: #ff6384;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #ff4d6d;
+        box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-7px);
+    }
+
+    .custom-table th, .custom-table td {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .custom-table {
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        box-shadow: 6px 6px 12px #cfcfcf, -6px -6px 12px #ffffff;
+        border-radius: 10px;
+    }
+
+    .custom-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .custom-btn:hover {
+        background-color: #45a049;
+        box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-7px);
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #ddd;
+        border-radius: 20px;
+        padding: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #ff6384;
+        box-shadow: 0 0 10px rgba(255, 99, 132, 0.2);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('.form-control, .form-select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('focus');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('focus');
+            });
+        });
+    });
+</script>
+{% endblock %}
